@@ -8,6 +8,8 @@
 
 #import "NSTask+Termination.h"
 
+#import "WCLConstants.h"
+
 @implementation NSTask (Termination)
 
 - (void)wcl_terminateWithCompletionHandler:(void (^)(BOOL success))completionHandler {

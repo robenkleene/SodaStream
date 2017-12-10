@@ -67,7 +67,7 @@ extension NSError {
         }
         
         let userInfo: [String: Any] = [NSLocalizedDescriptionKey: description,
-                                       String(TaskTerminatedUserInfoKey.exitStatus.rawValue)ts: NSNumber(value: Int32(exitCode))]
+                                       String(TaskTerminatedUserInfoKey.exitStatus.rawValue): NSNumber(value: Int32(exitCode))]
         
         return makeError(userInfo: userInfo, code: TaskTerminatedErrorCode.nonzeroExitStatus.rawValue)
     }

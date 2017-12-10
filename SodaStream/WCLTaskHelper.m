@@ -8,6 +8,7 @@
 
 #import "WCLTaskHelper.h"
 #import "NSTask+Termination.h"
+#import "WCLConstants.h"
 
 @implementation WCLTaskHelper
 
@@ -23,7 +24,7 @@
     NSMutableArray *mutableTasks = [NSMutableArray arrayWithArray:tasks];
     __block BOOL tasksTerminated = NO;
     
-    void (^completionHandlerBlock)() = ^void () {
+    void (^completionHandlerBlock)(void) = ^void () {
         if (![mutableTasks count]) {
             tasksTerminated = YES;
             if (completionHandler) {
@@ -36,7 +37,8 @@
     for (NSTask *task in tasks) {
         [task wcl_interruptWithCompletionHandler:^(BOOL success) {
             if (!success) {
-                DLog(@"[Termination] Failed to interrupt a task, trying terminate");
+                // TODO: Logging solution?
+                // DLog(@"[Termination] Failed to interrupt a task, trying terminate");
                 [task wcl_terminateWithCompletionHandler:^(BOOL success) {
                     NSAssert(success, @"Terminating NSTasks should always succeed.");
                     [mutableTasks removeObject:task];

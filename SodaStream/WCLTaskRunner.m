@@ -7,7 +7,7 @@
 //
 
 #import "WCLTaskRunner.h"
-#import "Web_Console-Swift.h"
+#import <SodaStream/SodaStream-Swift.h>
 
 @implementation WCLTaskRunner
 

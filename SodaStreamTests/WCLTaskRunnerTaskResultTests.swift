@@ -8,7 +8,7 @@
 
 import XCTest
 
-@testable import Web_Console
+@testable import SodaStream
 
 class WCLTaskRunnerTaskResultTests: XCTestCase {
     

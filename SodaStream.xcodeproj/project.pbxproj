@@ -25,6 +25,7 @@
 		45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51791FDDD6C5008F6ADA /* TestConstants.swift */; };
 		45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */; };
 		45FB517E1FDDDE50008F6ADA /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 45FB517D1FDDDE50008F6ADA /* Data */; };
+		45FB51801FDDE176008F6ADA /* SodaStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB517F1FDDE176008F6ADA /* SodaStream.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		45FB51791FDDD6C5008F6ADA /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+BundleResources.swift"; sourceTree = "<group>"; };
 		45FB517D1FDDDE50008F6ADA /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
+		45FB517F1FDDE176008F6ADA /* SodaStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SodaStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */,
 				45B4F4911FDDC5D3007CC3D0 /* Info.plist */,
 				45FB51781FDDD052008F6ADA /* WCLConstants.h */,
+				45FB517F1FDDE176008F6ADA /* SodaStream.swift */,
 			);
 			path = SodaStream;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				45FB51691FDDCAEA008F6ADA /* WCLTaskHelper.m in Sources */,
 				45FB516D1FDDCAEA008F6ADA /* NSError+WCLTaskRunner.swift in Sources */,
 				45FB51701FDDCAEA008F6ADA /* WCLTaskRunner.m in Sources */,
+				45FB51801FDDE176008F6ADA /* SodaStream.swift in Sources */,
 				45FB51771FDDCE33008F6ADA /* NSError+Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

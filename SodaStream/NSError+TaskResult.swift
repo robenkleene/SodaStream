@@ -66,8 +66,8 @@ extension NSError {
             description += ", standardError: \(standardError)"
         }
         
-        let userInfo: [AnyHashable: Any] = [NSLocalizedDescriptionKey: description,
-            TaskTerminatedUserInfoKey.exitStatus.rawValue: NSNumber(value: exitCode as Int32)]
+        let userInfo: [String: Any] = [NSLocalizedDescriptionKey: description,
+                                       String(TaskTerminatedUserInfoKey.exitStatus.rawValue)ts: NSNumber(value: Int32(exitCode))]
         
         return makeError(userInfo: userInfo, code: TaskTerminatedErrorCode.nonzeroExitStatus.rawValue)
     }

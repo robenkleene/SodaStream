@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import SodaStream
+
 extension WCLTaskRunnerTests: WCLTaskRunnerDelegate {
     func task(_ task: Process, didFailToRunCommandPath commandPath: String, error: Error) {
         XCTAssertNotNil(error)

@@ -22,6 +22,7 @@
 		45FB51741FDDCAF4008F6ADA /* WCLPluginTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51721FDDCAF4008F6ADA /* WCLPluginTaskTests.swift */; };
 		45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */; };
 		45FB51771FDDCE33008F6ADA /* NSError+Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */; };
+		45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51791FDDD6C5008F6ADA /* TestConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCLTaskRunnerTaskResultTests.swift; sourceTree = "<group>"; };
 		45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Errors.swift"; sourceTree = "<group>"; };
 		45FB51781FDDD052008F6ADA /* WCLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCLConstants.h; sourceTree = "<group>"; };
+		45FB51791FDDD6C5008F6ADA /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */,
 				45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */,
 				45B4F49D1FDDC5D3007CC3D0 /* Info.plist */,
+				45FB51791FDDD6C5008F6ADA /* TestConstants.swift */,
 			);
 			path = SodaStreamTests;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				45FB51741FDDCAF4008F6ADA /* WCLPluginTaskTests.swift in Sources */,
 				45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */,
 				45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */,
+				45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

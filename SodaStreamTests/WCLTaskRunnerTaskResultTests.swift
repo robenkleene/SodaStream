@@ -15,15 +15,15 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
     func testInterruptTask() {
         
         let commandPath = path(forResource: testDataShellScriptCatName,
-            ofType: testDataShellScriptExtension,
-            inDirectory: testDataSubdirectory)!
+                               ofType: testDataShellScriptExtension,
+                               inDirectory: testDataSubdirectory)!
         
         let expectation = self.expectation(description: "Task finished")
 
         _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-            withArguments: nil,
-            inDirectoryPath: nil,
-            timeout: 0.0)
+                                               withArguments: nil,
+                                               inDirectoryPath: nil,
+                                               timeout: 0.0)
         { (standardOutput, standardError, error) -> Void in
 
             XCTAssertNotNil(error)
@@ -45,14 +45,14 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
     func testStandardOutput() {
         
         let commandPath = path(forResource: testDataHelloWorld,
-            ofType: testDataRubyFileExtension,
-            inDirectory: testDataSubdirectory)!
+                               ofType: testDataRubyFileExtension,
+                               inDirectory: testDataSubdirectory)!
         
         let expectation = self.expectation(description: "Task finished")
         
         _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-            withArguments: nil,
-            inDirectoryPath: nil)
+                                               withArguments: nil,
+                                               inDirectoryPath: nil)
         { (standardOutput, standardError, error) -> Void in
                 
             XCTAssertNil(error)
@@ -71,14 +71,14 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
     func testStandardLongFile() {
         
         let testDataPath = path(forResource: testDataTextPSOutput,
-            ofType: testDataTextExtension,
-            inDirectory: testDataSubdirectory)!
+                                ofType: testDataTextExtension,
+                                inDirectory: testDataSubdirectory)!
         
         let expectation = self.expectation(description: "Task finished")
         
         _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: "/bin/cat",
-            withArguments: [testDataPath as AnyObject],
-            inDirectoryPath: nil)
+                                               withArguments: [testDataPath as AnyObject],
+                                               inDirectoryPath: nil)
             { (standardOutput, standardError, error) -> Void in
                 
                 XCTAssertNil(error)

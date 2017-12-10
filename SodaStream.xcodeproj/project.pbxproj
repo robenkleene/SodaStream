@@ -10,6 +10,17 @@
 		45B4F4971FDDC5D3007CC3D0 /* SodaStream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */; };
 		45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */; };
 		45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45FB51691FDDCAEA008F6ADA /* WCLTaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51601FDDCAE9008F6ADA /* WCLTaskHelper.m */; };
+		45FB516A1FDDCAEA008F6ADA /* NSTask+Termination.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */; };
+		45FB516B1FDDCAEA008F6ADA /* NSTask+Termination.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51621FDDCAE9008F6ADA /* NSTask+Termination.m */; };
+		45FB516C1FDDCAEA008F6ADA /* WCLTaskRunner+TaskResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51631FDDCAE9008F6ADA /* WCLTaskRunner+TaskResult.swift */; };
+		45FB516D1FDDCAEA008F6ADA /* NSError+WCLTaskRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51641FDDCAE9008F6ADA /* NSError+WCLTaskRunner.swift */; };
+		45FB516E1FDDCAEA008F6ADA /* NSError+TaskResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51651FDDCAE9008F6ADA /* NSError+TaskResult.swift */; };
+		45FB516F1FDDCAEA008F6ADA /* WCLTaskHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51661FDDCAE9008F6ADA /* WCLTaskHelper.h */; };
+		45FB51701FDDCAEA008F6ADA /* WCLTaskRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51671FDDCAE9008F6ADA /* WCLTaskRunner.m */; };
+		45FB51711FDDCAEA008F6ADA /* WCLTaskRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51681FDDCAEA008F6ADA /* WCLTaskRunner.h */; };
+		45FB51741FDDCAF4008F6ADA /* WCLPluginTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51721FDDCAF4008F6ADA /* WCLPluginTaskTests.swift */; };
+		45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +40,17 @@
 		45B4F4961FDDC5D3007CC3D0 /* SodaStreamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SodaStreamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SodaStreamTests.swift; sourceTree = "<group>"; };
 		45B4F49D1FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45FB51601FDDCAE9008F6ADA /* WCLTaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCLTaskHelper.m; sourceTree = "<group>"; };
+		45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+Termination.h"; sourceTree = "<group>"; };
+		45FB51621FDDCAE9008F6ADA /* NSTask+Termination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+Termination.m"; sourceTree = "<group>"; };
+		45FB51631FDDCAE9008F6ADA /* WCLTaskRunner+TaskResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WCLTaskRunner+TaskResult.swift"; sourceTree = "<group>"; };
+		45FB51641FDDCAE9008F6ADA /* NSError+WCLTaskRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+WCLTaskRunner.swift"; sourceTree = "<group>"; };
+		45FB51651FDDCAE9008F6ADA /* NSError+TaskResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+TaskResult.swift"; sourceTree = "<group>"; };
+		45FB51661FDDCAE9008F6ADA /* WCLTaskHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCLTaskHelper.h; sourceTree = "<group>"; };
+		45FB51671FDDCAE9008F6ADA /* WCLTaskRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCLTaskRunner.m; sourceTree = "<group>"; };
+		45FB51681FDDCAEA008F6ADA /* WCLTaskRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCLTaskRunner.h; sourceTree = "<group>"; };
+		45FB51721FDDCAF4008F6ADA /* WCLPluginTaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCLPluginTaskTests.swift; sourceTree = "<group>"; };
+		45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCLTaskRunnerTaskResultTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +93,15 @@
 		45B4F48F1FDDC5D3007CC3D0 /* SodaStream */ = {
 			isa = PBXGroup;
 			children = (
+				45FB51651FDDCAE9008F6ADA /* NSError+TaskResult.swift */,
+				45FB51641FDDCAE9008F6ADA /* NSError+WCLTaskRunner.swift */,
+				45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */,
+				45FB51621FDDCAE9008F6ADA /* NSTask+Termination.m */,
+				45FB51661FDDCAE9008F6ADA /* WCLTaskHelper.h */,
+				45FB51601FDDCAE9008F6ADA /* WCLTaskHelper.m */,
+				45FB51681FDDCAEA008F6ADA /* WCLTaskRunner.h */,
+				45FB51671FDDCAE9008F6ADA /* WCLTaskRunner.m */,
+				45FB51631FDDCAE9008F6ADA /* WCLTaskRunner+TaskResult.swift */,
 				45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */,
 				45B4F4911FDDC5D3007CC3D0 /* Info.plist */,
 			);
@@ -80,6 +111,8 @@
 		45B4F49A1FDDC5D3007CC3D0 /* SodaStreamTests */ = {
 			isa = PBXGroup;
 			children = (
+				45FB51721FDDCAF4008F6ADA /* WCLPluginTaskTests.swift */,
+				45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */,
 				45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */,
 				45B4F49D1FDDC5D3007CC3D0 /* Info.plist */,
 			);
@@ -93,7 +126,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45FB51711FDDCAEA008F6ADA /* WCLTaskRunner.h in Headers */,
 				45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */,
+				45FB516F1FDDCAEA008F6ADA /* WCLTaskHelper.h in Headers */,
+				45FB516A1FDDCAEA008F6ADA /* NSTask+Termination.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +184,7 @@
 				TargetAttributes = {
 					45B4F48C1FDDC5D3007CC3D0 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					45B4F4951FDDC5D3007CC3D0 = {
@@ -196,6 +233,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45FB516B1FDDCAEA008F6ADA /* NSTask+Termination.m in Sources */,
+				45FB516C1FDDCAEA008F6ADA /* WCLTaskRunner+TaskResult.swift in Sources */,
+				45FB516E1FDDCAEA008F6ADA /* NSError+TaskResult.swift in Sources */,
+				45FB51691FDDCAEA008F6ADA /* WCLTaskHelper.m in Sources */,
+				45FB516D1FDDCAEA008F6ADA /* NSError+WCLTaskRunner.swift in Sources */,
+				45FB51701FDDCAEA008F6ADA /* WCLTaskRunner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +246,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45FB51741FDDCAF4008F6ADA /* WCLPluginTaskTests.swift in Sources */,
+				45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */,
 				45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +378,7 @@
 		45B4F4A21FDDC5D3007CC3D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -347,6 +393,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.1percenter.SodaStream;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -354,6 +401,7 @@
 		45B4F4A31FDDC5D3007CC3D0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -375,6 +423,7 @@
 		45B4F4A51FDDC5D3007CC3D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SodaStreamTests/Info.plist;
@@ -388,6 +437,7 @@
 		45B4F4A61FDDC5D3007CC3D0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SodaStreamTests/Info.plist;

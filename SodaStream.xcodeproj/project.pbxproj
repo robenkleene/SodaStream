@@ -23,6 +23,8 @@
 		45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */; };
 		45FB51771FDDCE33008F6ADA /* NSError+Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */; };
 		45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51791FDDD6C5008F6ADA /* TestConstants.swift */; };
+		45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */; };
+		45FB517E1FDDDE50008F6ADA /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 45FB517D1FDDDE50008F6ADA /* Data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Errors.swift"; sourceTree = "<group>"; };
 		45FB51781FDDD052008F6ADA /* WCLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCLConstants.h; sourceTree = "<group>"; };
 		45FB51791FDDD6C5008F6ADA /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
+		45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+BundleResources.swift"; sourceTree = "<group>"; };
+		45FB517D1FDDDE50008F6ADA /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 		45B4F49A1FDDC5D3007CC3D0 /* SodaStreamTests */ = {
 			isa = PBXGroup;
 			children = (
+				45FB517D1FDDDE50008F6ADA /* Data */,
+				45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */,
 				45FB51721FDDCAF4008F6ADA /* WCLPluginTaskTests.swift */,
 				45FB51731FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift */,
 				45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */,
@@ -231,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45FB517E1FDDDE50008F6ADA /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45FB51741FDDCAF4008F6ADA /* WCLPluginTaskTests.swift in Sources */,
+				45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */,
 				45FB51751FDDCAF4008F6ADA /* WCLTaskRunnerTaskResultTests.swift in Sources */,
 				45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */,
 				45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */,

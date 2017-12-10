@@ -70,8 +70,8 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
 
     func testStandardLongFile() {
         
-        let testDataPath = path(forResource: testDataTextPSOutput,
-                                ofType: testDataTextExtension,
+        let testDataPath = path(forResource: testDataHelloWorld,
+                                ofType: testDataRubyFileExtension,
                                 inDirectory: testDataSubdirectory)!
         
         let expectation = self.expectation(description: "Task finished")

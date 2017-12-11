@@ -10,11 +10,11 @@ import Foundation
 
 extension NSError {
     
-    enum TaskTerminatedUserInfoKey: NSString {
+    public enum TaskTerminatedUserInfoKey: NSString {
         case exitStatus = "ExitStatus"
     }
     
-    enum TaskTerminatedErrorCode: Int {
+    public enum TaskTerminatedErrorCode: Int {
         case uncaughtSignal = 100, nonzeroExitStatus
     }
     

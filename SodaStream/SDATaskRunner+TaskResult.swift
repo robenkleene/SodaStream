@@ -87,7 +87,7 @@ extension SDATaskRunner {
     public typealias TaskResult = (_ standardOutput: String?, _ standardError: String?, _ error: NSError?) -> Void
     
 
-    class func runTaskUntilFinished(withCommandPath commandPath: String,
+    public class func runTaskUntilFinished(withCommandPath commandPath: String,
                                     withArguments arguments: [AnyObject]?,
                                     inDirectoryPath directoryPath: String?,
                                     completionHandler: @escaping SDATaskRunner.TaskResult) -> Process

@@ -1,5 +1,5 @@
 //
-//  WCLTastRunner+TaskResult.swift
+//  SDATastRunner+TaskResult.swift
 //  Web Console
 //
 //  Created by Roben Kleene on 12/20/15.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-extension TaskResultsCollector: WCLTaskRunnerDelegate {
+extension TaskResultsCollector: SDATaskRunnerDelegate {
     
     func taskDidFinish(_ task: Process) {
         assert(!task.isRunning)
@@ -36,8 +36,8 @@ class TaskResultsCollector: NSObject {
     var standardError: String?
     var error: NSError?
     
-    let completionHandler: WCLTaskRunner.TaskResult
-    init(completionHandler: @escaping WCLTaskRunner.TaskResult) {
+    let completionHandler: SDATaskRunner.TaskResult
+    init(completionHandler: @escaping SDATaskRunner.TaskResult) {
         self.completionHandler = completionHandler
     }
     
@@ -79,7 +79,7 @@ class TaskResultsCollector: NSObject {
     
 }
 
-extension WCLTaskRunner {
+extension SDATaskRunner {
     
     typealias TaskResult = (_ standardOutput: String?, _ standardError: String?, _ error: NSError?) -> Void
     
@@ -87,7 +87,7 @@ extension WCLTaskRunner {
     class func runTaskUntilFinished(withCommandPath commandPath: String,
         withArguments arguments: [AnyObject]?,
         inDirectoryPath directoryPath: String?,
-        completionHandler: @escaping WCLTaskRunner.TaskResult) -> Process
+        completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
     {
         let timeout = 20.0
         return runTaskUntilFinished(withCommandPath: commandPath,
@@ -101,7 +101,7 @@ extension WCLTaskRunner {
         withArguments arguments: [AnyObject]?,
         inDirectoryPath directoryPath: String?,
         timeout: TimeInterval,
-        completionHandler: @escaping WCLTaskRunner.TaskResult) -> Process
+        completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
     {
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
             completionHandler(standardOutput, standardError, error)
@@ -120,7 +120,7 @@ extension WCLTaskRunner {
         withArguments arguments: [AnyObject]?,
         inDirectoryPath directoryPath: String?,
         timeout: TimeInterval,
-        delegate: WCLTaskRunnerDelegate?,
+        delegate: SDATaskRunnerDelegate?,
         completionHandler: ((Bool) -> Void)?) -> Process
     {
         let task = runTask(withCommandPath: commandPath,

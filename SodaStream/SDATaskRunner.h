@@ -1,5 +1,5 @@
 //
-//  WCLTaskRunner.h
+//  SDATaskRunner.h
 //  Web Console
 //
 //  Created by Roben Kleene on 1/11/14.
@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class WCLTaskRunner;
+@class SDATaskRunner;
 
 NS_ASSUME_NONNULL_BEGIN
-@protocol WCLTaskRunnerDelegate <NSObject>
+@protocol SDATaskRunnerDelegate <NSObject>
 @optional
 #pragma mark Starting & Finishing Tasks
 - (void)taskWillStart:(NSTask *)task;
@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_END
 
 
 NS_ASSUME_NONNULL_BEGIN
-@interface WCLTaskRunner : NSObject
+@interface SDATaskRunner : NSObject
 + (NSTask *)runTaskWithCommandPath:(NSString *)commandPath
                      withArguments:(nullable NSArray *)arguments
                    inDirectoryPath:(nullable NSString *)directoryPath
-                          delegate:(nullable id<WCLTaskRunnerDelegate>)delegate
+                          delegate:(nullable id<SDATaskRunnerDelegate>)delegate
                  completionHandler:(nullable void (^)(BOOL success))completionHandler;
 @end
 NS_ASSUME_NONNULL_END

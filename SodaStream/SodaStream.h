@@ -16,5 +16,5 @@ FOUNDATION_EXPORT const unsigned char SodaStreamVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SodaStream/PublicHeader.h>
 
-#import "WCLTaskRunner.h"
+#import "SDATaskRunner.h"
 #import "NSTask+Termination.h"

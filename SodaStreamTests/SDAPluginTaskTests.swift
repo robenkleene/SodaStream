@@ -1,5 +1,5 @@
 //
-//  WCLTaskRunnerTests.swift
+//  SDATaskRunnerTests.swift
 //  Web Console
 //
 //  Created by Roben Kleene on 11/28/15.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import SodaStream
 
-extension WCLTaskRunnerTests: WCLTaskRunnerDelegate {
+extension SDATaskRunnerTests: SDATaskRunnerDelegate {
     func task(_ task: Process, didFailToRunCommandPath commandPath: String, error: Error) {
         XCTAssertNotNil(error)
         XCTAssert((error as NSError).code == RunCommandPathErrorCode.unexecutable.rawValue)
@@ -20,7 +20,7 @@ extension WCLTaskRunnerTests: WCLTaskRunnerDelegate {
     }
 }
 
-class WCLTaskRunnerTests: XCTestCase {
+class SDATaskRunnerTests: XCTestCase {
 
     var didFailToRunCommandPathExpectation: XCTestExpectation?
     
@@ -28,7 +28,7 @@ class WCLTaskRunnerTests: XCTestCase {
         let expection = expectation(description: "Run task")
         didFailToRunCommandPathExpectation = expectation(description: "Did fail to run command path")
         
-        WCLTaskRunner.runTask(withCommandPath: "invalid path", withArguments: nil, inDirectoryPath: nil, delegate: self) { (success) -> Void in
+        SDATaskRunner.runTask(withCommandPath: "invalid path", withArguments: nil, inDirectoryPath: nil, delegate: self) { (success) -> Void in
             XCTAssertFalse(success)
             expection.fulfill()
         }

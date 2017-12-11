@@ -8,7 +8,7 @@
 
 #import "NSTask+Termination.h"
 
-#import "WCLConstants.h"
+#import "SDAConstants.h"
 
 @implementation NSTask (Termination)
 

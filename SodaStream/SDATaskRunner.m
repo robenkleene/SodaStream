@@ -1,20 +1,20 @@
 //
-//  WCLTaskRunner.m
+//  SDATaskRunner.m
 //  Web Console
 //
 //  Created by Roben Kleene on 1/11/14.
 //  Copyright (c) 2014 Roben Kleene. All rights reserved.
 //
 
-#import "WCLTaskRunner.h"
+#import "SDATaskRunner.h"
 #import <SodaStream/SodaStream-Swift.h>
 
-@implementation WCLTaskRunner
+@implementation SDATaskRunner
 
 + (nonnull NSTask *)runTaskWithCommandPath:(NSString *)commandPath
                  withArguments:(NSArray *)arguments
                inDirectoryPath:(NSString *)directoryPath
-                      delegate:(id<WCLTaskRunnerDelegate>)delegate
+                      delegate:(id<SDATaskRunnerDelegate>)delegate
              completionHandler:(void (^)(BOOL success))completionHandler
 {
     NSTask *task = [[NSTask alloc] init];
@@ -141,14 +141,14 @@
     return task;
 }
 
-+ (void)processStandardOutput:(NSString *)text task:(NSTask *)task delegate:(id<WCLTaskRunnerDelegate>)delegate
++ (void)processStandardOutput:(NSString *)text task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate
 {
     if ([delegate respondsToSelector:@selector(task:didReadFromStandardOutput:)]) {
         [delegate task:task didReadFromStandardOutput:text];
     }
 }
 
-+ (void)processStandardError:(NSString *)text task:(NSTask *)task delegate:(id<WCLTaskRunnerDelegate>)delegate
++ (void)processStandardError:(NSString *)text task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate
 {
     if ([delegate respondsToSelector:@selector(task:didReadFromStandardError:)]) {
         [delegate task:task didReadFromStandardError:text];

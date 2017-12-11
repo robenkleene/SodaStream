@@ -1,5 +1,5 @@
 //
-//  WCLTaskRunnerTaskResultTests.swift
+//  SDATaskRunnerTaskResultTests.swift
 //  Web Console
 //
 //  Created by Roben Kleene on 12/20/15.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import SodaStream
 
-class WCLTaskRunnerTaskResultTests: XCTestCase {
+class SDATaskRunnerTaskResultTests: XCTestCase {
     
     func testInterruptTask() {
         
@@ -20,7 +20,7 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
         
         let expectation = self.expectation(description: "Task finished")
 
-        _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
+        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                withArguments: nil,
                                                inDirectoryPath: nil,
                                                timeout: 0.0)
@@ -50,7 +50,7 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
         
         let expectation = self.expectation(description: "Task finished")
         
-        _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
+        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                withArguments: nil,
                                                inDirectoryPath: nil)
         { (standardOutput, standardError, error) -> Void in
@@ -76,7 +76,7 @@ class WCLTaskRunnerTaskResultTests: XCTestCase {
         
         let expectation = self.expectation(description: "Task finished")
         
-        _ = WCLTaskRunner.runTaskUntilFinished(withCommandPath: "/bin/cat",
+        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: "/bin/cat",
                                                withArguments: [testDataPath as AnyObject],
                                                inDirectoryPath: nil)
             { (standardOutput, standardError, error) -> Void in

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface WCLTaskHelper : NSObject
+@interface SDATaskHelper : NSObject
 + (void)terminateTask:(NSTask *)task
     completionHandler:(nullable void (^)(BOOL success))completionHandler;
 /*! First interrupts an array of NSTasks, then terminates any NSTasks that

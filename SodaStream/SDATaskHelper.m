@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Roben Kleene. All rights reserved.
 //
 
-#import "WCLTaskHelper.h"
+#import "SDATaskHelper.h"
 #import "NSTask+Termination.h"
-#import "WCLConstants.h"
+#import "SDAConstants.h"
 
-@implementation WCLTaskHelper
+@implementation SDATaskHelper
 
 + (void)terminateTask:(nonnull NSTask *)task
     completionHandler:(nullable void (^)(BOOL success))completionHandler

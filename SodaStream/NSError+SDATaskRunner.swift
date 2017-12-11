@@ -1,5 +1,5 @@
 //
-//  NSError+WCLTaskRunner.swift
+//  NSError+SDATaskRunner.swift
 //  Web Console
 //
 //  Created by Roben Kleene on 12/19/15.
@@ -12,7 +12,7 @@ enum RunCommandPathErrorCode: Int {
     case unknown = 100, unexecutable, exception
 }
 
-// MARK: WCLTaskRunner
+// MARK: SDATaskRunner
 
 // `public` and `@objc` to be called from Objective-C
 @objc public extension NSError {

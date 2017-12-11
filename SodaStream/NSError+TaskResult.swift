@@ -19,9 +19,9 @@ extension NSError {
     }
     
     class func makeTaskTerminatedUncaughtSignalError(launchPath: String?,
-        arguments: [String]?,
-        directoryPath: String?,
-        standardError: String?) -> NSError
+                                                     arguments: [String]?,
+                                                     directoryPath: String?,
+                                                     standardError: String?) -> NSError
     {
         var description = "An uncaught signal error occurred"
         if let launchPath = launchPath {
@@ -44,10 +44,10 @@ extension NSError {
     }
     
     class func makeTaskTerminatedNonzeroExitCodeError(launchPath: String?,
-        exitCode: Int32,
-        arguments: [String]?,
-        directoryPath: String?,
-        standardError: String?) -> NSError
+                                                      exitCode: Int32,
+                                                      arguments: [String]?,
+                                                      directoryPath: String?,
+                                                      standardError: String?) -> NSError
     {
         var description = "Terminated with a nonzero exit status \(exitCode)"
         if let launchPath = launchPath {

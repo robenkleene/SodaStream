@@ -17,7 +17,10 @@ extension TaskResultsCollector: SDATaskRunnerDelegate {
         completionHandler(standardOutput, standardError, error)
     }
 
-    func task(_ task: Process, didFailToRunCommandPath commandPath: String, error: Error) {
+    func task(_ task: Process,
+              didFailToRunCommandPath commandPath: String,
+              error: Error)
+    {
         assert(!task.isRunning)
         completionHandler(standardOutput, standardError, error as NSError?)
     }
@@ -85,9 +88,9 @@ extension SDATaskRunner {
     
 
     class func runTaskUntilFinished(withCommandPath commandPath: String,
-        withArguments arguments: [AnyObject]?,
-        inDirectoryPath directoryPath: String?,
-        completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
+                                    withArguments arguments: [AnyObject]?,
+                                    inDirectoryPath directoryPath: String?,
+                                    completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
     {
         let timeout = 20.0
         return runTaskUntilFinished(withCommandPath: commandPath,
@@ -98,10 +101,10 @@ extension SDATaskRunner {
     }
 
     class func runTaskUntilFinished(withCommandPath commandPath: String,
-        withArguments arguments: [AnyObject]?,
-        inDirectoryPath directoryPath: String?,
-        timeout: TimeInterval,
-        completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
+                                    withArguments arguments: [AnyObject]?,
+                                    inDirectoryPath directoryPath: String?,
+                                    timeout: TimeInterval,
+                                    completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
     {
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
             completionHandler(standardOutput, standardError, error)
@@ -117,17 +120,17 @@ extension SDATaskRunner {
     
     
     class func runTaskWithCommandPath(_ commandPath: String,
-        withArguments arguments: [AnyObject]?,
-        inDirectoryPath directoryPath: String?,
-        timeout: TimeInterval,
-        delegate: SDATaskRunnerDelegate?,
-        completionHandler: ((Bool) -> Void)?) -> Process
+                                      withArguments arguments: [AnyObject]?,
+                                      inDirectoryPath directoryPath: String?,
+                                      timeout: TimeInterval,
+                                      delegate: SDATaskRunnerDelegate?,
+                                      completionHandler: ((Bool) -> Void)?) -> Process
     {
         let task = runTask(withCommandPath: commandPath,
-            withArguments: arguments,
-            inDirectoryPath: directoryPath,
-            delegate: delegate,
-            completionHandler: completionHandler)
+                           withArguments: arguments,
+                           inDirectoryPath: directoryPath,
+                           delegate: delegate,
+                           completionHandler: completionHandler)
         
         let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delayTime) {

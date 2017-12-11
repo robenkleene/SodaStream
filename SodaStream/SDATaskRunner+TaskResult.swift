@@ -84,7 +84,7 @@ class TaskResultsCollector: NSObject {
 
 extension SDATaskRunner {
     
-    typealias TaskResult = (_ standardOutput: String?, _ standardError: String?, _ error: NSError?) -> Void
+    public typealias TaskResult = (_ standardOutput: String?, _ standardError: String?, _ error: NSError?) -> Void
     
 
     class func runTaskUntilFinished(withCommandPath commandPath: String,
@@ -100,11 +100,11 @@ extension SDATaskRunner {
             completionHandler: completionHandler)
     }
 
-    class func runTaskUntilFinished(withCommandPath commandPath: String,
-                                    withArguments arguments: [AnyObject]?,
-                                    inDirectoryPath directoryPath: String?,
-                                    timeout: TimeInterval,
-                                    completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
+    public class func runTaskUntilFinished(withCommandPath commandPath: String,
+                                           withArguments arguments: [AnyObject]?,
+                                           inDirectoryPath directoryPath: String?,
+                                           timeout: TimeInterval,
+                                           completionHandler: @escaping SDATaskRunner.TaskResult) -> Process
     {
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
             completionHandler(standardOutput, standardError, error)

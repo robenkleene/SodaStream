@@ -8,7 +8,7 @@
 
 import Foundation
 
-let errorDomain = Bundle(for: SodaStream.self).bundleIdentifier!
+let errorDomain = Bundle(for: SDATaskRunner.self).bundleIdentifier!
 let errorCode = 100
 
 // MARK: Generic

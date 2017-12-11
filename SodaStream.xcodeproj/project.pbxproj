@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		45B4F4971FDDC5D3007CC3D0 /* SodaStream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */; };
-		45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */; };
 		45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */; };
 		45FB516A1FDDCAEA008F6ADA /* NSTask+Termination.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,7 +24,6 @@
 		45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51791FDDD6C5008F6ADA /* TestConstants.swift */; };
 		45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */; };
 		45FB517E1FDDDE50008F6ADA /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 45FB517D1FDDDE50008F6ADA /* Data */; };
-		45FB51801FDDE176008F6ADA /* SodaStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FB517F1FDDE176008F6ADA /* SodaStream.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +41,6 @@
 		45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SodaStream.h; sourceTree = "<group>"; };
 		45B4F4911FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45B4F4961FDDC5D3007CC3D0 /* SodaStreamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SodaStreamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SodaStreamTests.swift; sourceTree = "<group>"; };
 		45B4F49D1FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDATaskHelper.m; sourceTree = "<group>"; };
 		45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+Termination.h"; sourceTree = "<group>"; };
@@ -61,7 +58,6 @@
 		45FB51791FDDD6C5008F6ADA /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+BundleResources.swift"; sourceTree = "<group>"; };
 		45FB517D1FDDDE50008F6ADA /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
-		45FB517F1FDDE176008F6ADA /* SodaStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SodaStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */,
-				45FB517F1FDDE176008F6ADA /* SodaStream.swift */,
 				45FB51781FDDD052008F6ADA /* SDAConstants.h */,
 				45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */,
 				45FB51651FDDCAE9008F6ADA /* NSError+TaskResult.swift */,
@@ -128,7 +123,6 @@
 				45FB517D1FDDDE50008F6ADA /* Data */,
 				45FB51721FDDCAF4008F6ADA /* SDAPluginTaskTests.swift */,
 				45FB51731FDDCAF4008F6ADA /* SDATaskRunnerTaskResultTests.swift */,
-				45B4F49B1FDDC5D3007CC3D0 /* SodaStreamTests.swift */,
 				45B4F49D1FDDC5D3007CC3D0 /* Info.plist */,
 				45FB51791FDDD6C5008F6ADA /* TestConstants.swift */,
 				45FB517B1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift */,
@@ -257,7 +251,6 @@
 				45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */,
 				45FB516D1FDDCAEA008F6ADA /* NSError+SDATaskRunner.swift in Sources */,
 				45FB51701FDDCAEA008F6ADA /* SDATaskRunner.m in Sources */,
-				45FB51801FDDE176008F6ADA /* SodaStream.swift in Sources */,
 				45FB51771FDDCE33008F6ADA /* NSError+Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +262,6 @@
 				45FB51741FDDCAF4008F6ADA /* SDAPluginTaskTests.swift in Sources */,
 				45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */,
 				45FB51751FDDCAF4008F6ADA /* SDATaskRunnerTaskResultTests.swift in Sources */,
-				45B4F49C1FDDC5D3007CC3D0 /* SodaStreamTests.swift in Sources */,
 				45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -23,11 +23,11 @@ extension SDATaskRunnerTests: SDATaskRunnerDelegate {
 class SDATaskRunnerTests: XCTestCase {
 
     var didFailToRunCommandPathExpectation: XCTestExpectation?
-    
+
     func testInvalidCommandPath() {
         let expection = expectation(description: "Run task")
         didFailToRunCommandPathExpectation = expectation(description: "Did fail to run command path")
-        
+
         SDATaskRunner.runTask(withCommandPath: "invalid path", withArguments: nil, inDirectoryPath: nil, delegate: self) { (success) -> Void in
             XCTAssertFalse(success)
             expection.fulfill()

@@ -20,13 +20,13 @@ enum RunCommandPathErrorCode: Int {
     public class func commandPathUnkownError(launchPath: String) -> NSError {
         return makeError(description: "An unkown error occurred running command path: \(launchPath)", code: RunCommandPathErrorCode.unknown.rawValue)
     }
-    
+
     public class func commandPathUnexecutableError(launchPath: String) -> NSError {
         return makeError(description: "Command path is not executable: \(launchPath)", code: RunCommandPathErrorCode.unexecutable.rawValue)
     }
-    
+
     public class func commandPathExceptionError(launchPath: String) -> NSError {
         return makeError(description: "An exception was thrown running command path: \(launchPath)", code: RunCommandPathErrorCode.exception.rawValue)
     }
-    
+
 }

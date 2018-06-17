@@ -18,16 +18,14 @@ extension NSError {
     class func makeError(description: String) -> NSError {
         return makeError(description: description, code: errorCode)
     }
-    
-    class func makeError(description: String, code: Int) -> NSError
-    {
+
+    class func makeError(description: String, code: Int) -> NSError {
         return makeError(userInfo: [NSLocalizedDescriptionKey: description],
                          code: code)
     }
 
     class func makeError(userInfo: [String: Any],
-                         code: Int) -> NSError
-    {
+                         code: Int) -> NSError {
         return NSError(domain: errorDomain,
                        code: code,
                        userInfo: userInfo)

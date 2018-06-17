@@ -27,7 +27,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                 return
             }
 
-            guard let description = error.userInfo[NSLocalizedDescriptionKey] as NSString else {
+            guard let description = error.userInfo[NSLocalizedDescriptionKey] as? NSString else {
                 XCTFail()
                 return
             }

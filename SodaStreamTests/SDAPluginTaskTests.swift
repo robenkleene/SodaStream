@@ -6,12 +6,11 @@
 //  Copyright © 2015 Roben Kleene. All rights reserved.
 //
 
+@testable import SodaStream
 import XCTest
 
-@testable import SodaStream
-
 extension SDATaskRunnerTests: SDATaskRunnerDelegate {
-    func task(_ task: Process, didFailToRunCommandPath commandPath: String, error: Error) {
+    func task(_: Process, didFailToRunCommandPath _: String, error: Error) {
         XCTAssertNotNil(error)
         XCTAssert((error as NSError).code == RunCommandPathErrorCode.unexecutable.rawValue)
         if let didFailToRunCommandPathExpectation = didFailToRunCommandPathExpectation {
@@ -21,7 +20,6 @@ extension SDATaskRunnerTests: SDATaskRunnerDelegate {
 }
 
 class SDATaskRunnerTests: XCTestCase {
-
     var didFailToRunCommandPathExpectation: XCTestExpectation?
 
     func testInvalidCommandPath() {
@@ -34,5 +32,4 @@ class SDATaskRunnerTests: XCTestCase {
         }
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
-
 }

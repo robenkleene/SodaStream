@@ -14,7 +14,6 @@ let errorCode = 100
 // MARK: Generic
 
 extension NSError {
-
     class func makeError(description: String) -> NSError {
         return makeError(description: description, code: errorCode)
     }
@@ -30,5 +29,4 @@ extension NSError {
                        code: code,
                        userInfo: userInfo)
     }
-
 }

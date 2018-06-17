@@ -16,7 +16,6 @@ enum RunCommandPathErrorCode: Int {
 
 // `public` and `@objc` to be called from Objective-C
 @objc public extension NSError {
-
     public class func commandPathUnkownError(launchPath: String) -> NSError {
         return makeError(description: "An unkown error occurred running command path: \(launchPath)", code: RunCommandPathErrorCode.unknown.rawValue)
     }
@@ -28,5 +27,4 @@ enum RunCommandPathErrorCode: Int {
     public class func commandPathExceptionError(launchPath: String) -> NSError {
         return makeError(description: "An exception was thrown running command path: \(launchPath)", code: RunCommandPathErrorCode.exception.rawValue)
     }
-
 }

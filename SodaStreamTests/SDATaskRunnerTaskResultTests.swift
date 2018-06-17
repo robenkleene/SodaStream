@@ -6,14 +6,11 @@
 //  Copyright © 2015 Roben Kleene. All rights reserved.
 //
 
+@testable import SodaStream
 import XCTest
 
-@testable import SodaStream
-
 class SDATaskRunnerTaskResultTests: XCTestCase {
-
     func testInterruptTask() {
-
         let commandPath = path(forResource: testDataShellScriptCatName,
                                ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
@@ -38,11 +35,9 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         }
 
         waitForExpectations(timeout: testTimeout, handler: nil)
-
     }
 
     func testStandardOutput() {
-
         let commandPath = path(forResource: testDataHelloWorld,
                                ofType: testDataRubyFileExtension,
                                inDirectory: testDataSubdirectory)!
@@ -67,7 +62,6 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
     }
 
     func testStandardLongFile() {
-
         let testDataPath = path(forResource: testDataHelloWorld,
                                 ofType: testDataRubyFileExtension,
                                 inDirectory: testDataSubdirectory)!
@@ -78,23 +72,22 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                                withArguments: [testDataPath as AnyObject],
                                                inDirectoryPath: nil) { (standardOutput, _, error) -> Void in
 
+            XCTAssertNil(error)
+            guard let standardOutput = standardOutput else {
+                XCTAssertTrue(false)
+                return
+            }
+
+            do {
+                let testData = try String(contentsOfFile: testDataPath, encoding: String.Encoding.utf8)
+                XCTAssertTrue(testData.isEqual(standardOutput))
+            } catch let error as NSError {
                 XCTAssertNil(error)
-                guard let standardOutput = standardOutput else {
-                    XCTAssertTrue(false)
-                    return
-                }
+            }
 
-                do {
-                    let testData = try String(contentsOfFile: testDataPath, encoding: String.Encoding.utf8)
-                    XCTAssertTrue(testData.isEqual(standardOutput))
-                } catch let error as NSError {
-                    XCTAssertNil(error)
-                }
-
-                expectation.fulfill()
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
-
 }

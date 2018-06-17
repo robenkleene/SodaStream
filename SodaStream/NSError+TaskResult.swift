@@ -9,7 +9,6 @@
 import Foundation
 
 extension NSError {
-
     public enum TaskTerminatedUserInfoKey: NSString {
         case exitStatus = "ExitStatus"
     }
@@ -64,10 +63,11 @@ extension NSError {
             description += ", standardError: \(standardError)"
         }
 
-        let userInfo: [String: Any] = [NSLocalizedDescriptionKey: description,
-                                       String(TaskTerminatedUserInfoKey.exitStatus.rawValue): NSNumber(value: Int32(exitCode))]
+        let userInfo: [String: Any] = [
+            NSLocalizedDescriptionKey: description,
+            String(TaskTerminatedUserInfoKey.exitStatus.rawValue): NSNumber(value: Int32(exitCode)),
+        ]
 
         return makeError(userInfo: userInfo, code: TaskTerminatedErrorCode.nonzeroExitStatus.rawValue)
     }
-
 }

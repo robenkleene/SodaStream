@@ -21,14 +21,16 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                                withArguments: nil,
                                                inDirectoryPath: nil,
                                                timeout: 0.0) { (_, _, error) -> Void in
-
             XCTAssertNotNil(error)
             guard let error = error else {
                 XCTAssertTrue(false)
                 return
             }
 
-            let description = error.userInfo[NSLocalizedDescriptionKey] as! NSString
+            guard let description = error.userInfo[NSLocalizedDescriptionKey] as NSString else {
+                XCTFail()
+                return
+            }
             XCTAssertTrue(description.hasPrefix("An uncaught signal error occurred"))
 
             expectation.fulfill()

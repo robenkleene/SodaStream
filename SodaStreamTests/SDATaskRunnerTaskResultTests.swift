@@ -12,22 +12,11 @@ import XCTest
 class SDATaskRunnerTaskResultTests: XCTestCase {
 
     func testInterruptTask() {
-//        let commandPath = path(forResource: testDataShellScriptCatName,
-//                               ofType: testDataShellScriptExtension,
-//                               inDirectory: testDataSubdirectory)!
-
         let expectation = self.expectation(description: "Task finished")
-
-
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: "/usr/bin/yes",
                                                withArguments: nil,
                                                inDirectoryPath: nil,
                                                timeout: 0.0) { (_, _, error) -> Void in
-
-//        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-//                                               withArguments: nil,
-//                                               inDirectoryPath: nil,
-//                                               timeout: 0.0) { (_, _, error) -> Void in
             XCTAssertNotNil(error)
             guard let error = error else {
                 XCTAssertTrue(false)

@@ -10,6 +10,7 @@
 import XCTest
 
 class SDATaskRunnerTaskResultTests: XCTestCase {
+
     func testInterruptTask() {
         let commandPath = path(forResource: testDataShellScriptCatName,
                                ofType: testDataShellScriptExtension,
@@ -41,7 +42,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
 
     func testStandardOutput() {
         let commandPath = path(forResource: testDataHelloWorld,
-                               ofType: testDataRubyFileExtension,
+                               ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
 
         let expectation = self.expectation(description: "Task finished")

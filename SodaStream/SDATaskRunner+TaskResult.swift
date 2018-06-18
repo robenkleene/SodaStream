@@ -124,7 +124,13 @@ extension SDATaskRunner {
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             if task.isRunning {
                 task.wcl_interrupt(completionHandler: { (success) -> Void in
-                    assert(success)
+                    if (!success) {
+                        // If the interrupt fails, try a terminate as a
+                        // last resort.
+                        task.wcl_terminate(completionHandler: { (success) -> Void in
+                            assert(success)
+                        })
+                    }
                 })
             }
         }

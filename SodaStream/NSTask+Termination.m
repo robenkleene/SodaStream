@@ -42,8 +42,6 @@
         NSLog(@"[FIXINTERRUPT] After delay");
 
         if (!didTerminate) {
-            NSLog(@"[FIXINTERRUPT] After delay");
-
             [[NSNotificationCenter defaultCenter] removeObserver:observer];
             NSLog(@"[FIXINTERRUPT] useInterrupt = %i", useInterrupt);
             NSLog(@"[FIXINTERRUPT] [self isRunning] = %i", [self isRunning]);

@@ -113,7 +113,7 @@ extension SDATaskRunner {
     class func runTaskWithCommandPath(_ commandPath: String,
                                       withArguments arguments: [AnyObject]?,
                                       inDirectoryPath directoryPath: String?,
-                                      timeout _: TimeInterval,
+                                      timeout: TimeInterval,
                                       delegate: SDATaskRunnerDelegate?,
                                       completionHandler: ((Bool) -> Void)?) -> Process {
         let task = runTask(withCommandPath: commandPath,
@@ -121,9 +121,7 @@ extension SDATaskRunner {
                            inDirectoryPath: directoryPath,
                            delegate: delegate,
                            completionHandler: completionHandler)
-
-        let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
             if task.isRunning {
                 task.wcl_interrupt(completionHandler: { (success) -> Void in
                     assert(success)

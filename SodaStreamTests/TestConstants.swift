@@ -8,7 +8,7 @@
 
 import Foundation
 
-let testTimeout = 20.0
+let testTimeout = 40.0
 
 let testDataSubdirectory = "Data"
 let testDataShellScriptCatName = "cat"

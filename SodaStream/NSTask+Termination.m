@@ -31,19 +31,26 @@
                                                                   queue:nil
                                                              usingBlock:^(NSNotification *notification) {
                                                                  NSAssert(![self isRunning], @"The NSTask should not be running.");
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                                                                  didTerminate = YES;
                                                                  completionHandler(YES);
-                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                                                              }];
     
     double delayInSeconds = kTaskInterruptTimeout;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        NSLog(@"[FIXINTERRUPT] After delay");
+
         if (!didTerminate) {
+            NSLog(@"[FIXINTERRUPT] After delay");
+
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+            NSLog(@"[FIXINTERRUPT] useInterrupt = %i", useInterrupt);
+            NSLog(@"[FIXINTERRUPT] [self isRunning] = %i", [self isRunning]);
+
             NSAssert(useInterrupt, @"Terminate should always succeed.");
             NSAssert([self isRunning], @"The NSTask should be running.");
             completionHandler(NO);
-            [[NSNotificationCenter defaultCenter] removeObserver:observer];
         }
     });
     

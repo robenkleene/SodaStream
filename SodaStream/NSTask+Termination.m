@@ -40,6 +40,8 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         if (!didTerminate) {
+            NSLog(@"[FINDME] [self isRunning] = %i", [self isRunning]);
+
             [[NSNotificationCenter defaultCenter] removeObserver:observer];
             NSAssert(useInterrupt, @"Terminate should always succeed.");
             NSAssert([self isRunning], @"The NSTask should be running.");

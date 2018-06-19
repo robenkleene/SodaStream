@@ -62,15 +62,15 @@
     [task setStandardInput:[NSPipe pipe]];
     
     // Termination handler
-    NSLog(@"[FINDME] Set termination handler");
+    NSLog(@"[FINDME] Set termination handler, for [self launchPath] = %@", [task launchPath]);
     [task setTerminationHandler:^(NSTask *task) {
-        NSLog(@"[FINDME] Firing termination handler");
+        NSLog(@"[FINDME] Firing termination handler, for [self launchPath] = %@", [task launchPath]);
 
         [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
         [[task.standardError fileHandleForReading] setReadabilityHandler:nil];
         
         dispatch_async(callbackQueue, ^{
-            NSLog(@"[FINDME] Firing callback queue");
+            NSLog(@"[FINDME] Firing callback queue, for [self launchPath] = %@", [task launchPath]);
 
             // Standard Input, Output & Error
             if ([delegate respondsToSelector:@selector(taskDidFinish:)]) {

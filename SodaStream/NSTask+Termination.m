@@ -31,8 +31,8 @@
                                                                   queue:nil
                                                              usingBlock:^(NSNotification *notification) {
                                                                  NSAssert(![self isRunning], @"The NSTask should not be running.");
-                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                                                                  didTerminate = YES;
+                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
                                                                  completionHandler(YES);
                                                              }];
     
@@ -40,7 +40,6 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         if (!didTerminate) {
-            NSLog(@"[self launchPath] = %@", [self launchPath]);
             [[NSNotificationCenter defaultCenter] removeObserver:observer];
             NSAssert(useInterrupt, @"Terminate should always succeed.");
             NSAssert([self isRunning], @"The NSTask should be running.");

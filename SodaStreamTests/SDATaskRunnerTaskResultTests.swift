@@ -61,7 +61,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
 
     func testStandardLongFile() {
         let testDataPath = path(forResource: testDataHelloWorld,
-                                ofType: testDataRubyFileExtension,
+                                ofType: testDataShellScriptExtension,
                                 inDirectory: testDataSubdirectory)!
 
         let expectation = self.expectation(description: "Task finished")

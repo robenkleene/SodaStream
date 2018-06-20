@@ -8,10 +8,10 @@
 
 import Foundation
 
-let testTimeout = 2.0
+let testTimeout = 5.0
 
 let testDataSubdirectory = "Data"
 let testDataShellScriptCatName = "cat"
 let testDataShellScriptExtension = "sh"
-let testDataRubyFileExtension =  "rb"
+let testDataRubyFileExtension = "rb"
 let testDataHelloWorld = "hello_world"

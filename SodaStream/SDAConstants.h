@@ -6,4 +6,4 @@
 //  Copyright © 2017 Roben Kleene. All rights reserved.
 //
 
-#define kTaskInterruptTimeout 1.0
+#define kTaskInterruptTimeout 2.0

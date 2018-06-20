@@ -9,68 +9,65 @@
 import Foundation
 
 extension NSError {
-    
     public enum TaskTerminatedUserInfoKey: NSString {
         case exitStatus = "ExitStatus"
     }
-    
+
     public enum TaskTerminatedErrorCode: Int {
         case uncaughtSignal = 100, nonzeroExitStatus
     }
-    
+
     class func makeTaskTerminatedUncaughtSignalError(launchPath: String?,
                                                      arguments: [String]?,
                                                      directoryPath: String?,
-                                                     standardError: String?) -> NSError
-    {
+                                                     standardError: String?) -> NSError {
         var description = "An uncaught signal error occurred"
         if let launchPath = launchPath {
             description += " running launch path: \(launchPath)"
         }
-        
+
         if let arguments = arguments {
             description += ", with arguments: \(arguments)"
         }
-        
+
         if let directoryPath = directoryPath {
             description += ", in directory path: \(directoryPath)"
         }
-        
+
         if let standardError = standardError {
             description += ", standardError: \(standardError)"
         }
-        
+
         return makeError(description: description, code: TaskTerminatedErrorCode.uncaughtSignal.rawValue)
     }
-    
+
     class func makeTaskTerminatedNonzeroExitCodeError(launchPath: String?,
                                                       exitCode: Int32,
                                                       arguments: [String]?,
                                                       directoryPath: String?,
-                                                      standardError: String?) -> NSError
-    {
+                                                      standardError: String?) -> NSError {
         var description = "Terminated with a nonzero exit status \(exitCode)"
         if let launchPath = launchPath {
             description += " running launch path: \(launchPath)"
         }
-        
+
         if let arguments = arguments {
             description += ", with arguments: \(arguments)"
         }
-        
+
         if let directoryPath = directoryPath {
             description += ", in directory path: \(directoryPath)"
         }
-        
+
         if let standardError = standardError {
             description += ", standardError: \(standardError)"
         }
-        
-        let userInfo: [String: Any] = [NSLocalizedDescriptionKey: description,
-                                       String(TaskTerminatedUserInfoKey.exitStatus.rawValue): NSNumber(value: Int32(exitCode))]
-        
+
+        let userInfo: [String: Any] = [
+            NSLocalizedDescriptionKey: description,
+            String(TaskTerminatedUserInfoKey.exitStatus.rawValue): NSNumber(value: Int32(exitCode))
+        ]
+
         return makeError(userInfo: userInfo, code: TaskTerminatedErrorCode.nonzeroExitStatus.rawValue)
     }
-    
-    
 }

@@ -32,18 +32,18 @@
                                                              usingBlock:^(NSNotification *notification) {
                                                                  NSAssert(![self isRunning], @"The NSTask should not be running.");
                                                                  didTerminate = YES;
-                                                                 completionHandler(YES);
                                                                  [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                                                                 completionHandler(YES);
                                                              }];
     
     double delayInSeconds = kTaskInterruptTimeout;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         if (!didTerminate) {
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
             NSAssert(useInterrupt, @"Terminate should always succeed.");
             NSAssert([self isRunning], @"The NSTask should be running.");
             completionHandler(NO);
-            [[NSNotificationCenter defaultCenter] removeObserver:observer];
         }
     });
     
@@ -51,6 +51,8 @@
         [self interrupt];
     } else {
         [self terminate];
+        pid_t pid = [self processIdentifier];
+        kill(pid, SIGKILL);
     }
 }
 

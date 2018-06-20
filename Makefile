@@ -2,7 +2,7 @@ SCHEME = SodaStream
 
 .PHONY: build test lint autocorrect swiftformat swiftlint_autocorrect
 
-ci: lint test
+ci: lint build
 ac: autocorrect
 autocorrect: swiftformat swiftlint_autocorrect
 

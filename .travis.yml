@@ -1,3 +1,17 @@
 language: swift
 osx_image: xcode10
 script: make ci
+xcode_project: SodaStream
+xcode_scheme: SodaStream
+env:
+  global:
+  - FRAMEWORK_NAME=SodaStream
+before_install:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+before_script:
+- make lint
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive $FRAMEWORK_NAME
+

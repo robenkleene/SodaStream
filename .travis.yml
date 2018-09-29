@@ -1,3 +1,25 @@
 language: swift
 osx_image: xcode10
 script: make ci
+xcode_project: SodaStream
+xcode_scheme: SodaStream
+env:
+  global:
+  - FRAMEWORK_NAME=SodaStream
+before_install:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+before_script:
+- make lint
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive $FRAMEWORK_NAME
+deploy:
+  provider: releases
+  api_key:
+    secure: cIs0FVkxonsEyHExGvATU7ExIxv2XAtibX5LzKN1SWgg/kSYS3OYZVjsJpCqZORMaYtf+4axh1yTiEV/I5kzU8cDJvk61p0jHnl7Q25kJ/7TIyR6EhEZP/AkZs0dLiDQTgQC8DGy+Y0FQ7wmAK/9xvEwFq6y8XrieBAhHW/mHE4L8wIEZtmqIfhIji//7bE3yp+KIlosCHfsiqPQas/crAIHoc6me4Fz6tmDuokKflPN+IoQ3/AuCUqPIKOuE5hoFK6cXHcyZuHFyPmckzmyIf+DYOi9UxU+Wwjiu+hyKC+WKQ0EwOaoReSNUtsnKpWai7s1//xDnl75p9Mo+0tH8zUSLMSy/JF1AIK75CEqEAQoFZU+xrA+PX5U3OvlHVe6PG+JevRbekjO8aSVLtiiYzjhb5FvyFu4prAl0QF5fPmejxq3vx3MbWvibsbltDFyIROBMVwxxzikFStPwwrQAgeGvOTUPB+bIy2yCqnXcHSqcXo0ButFeRpkq4CY4jP9WmSk/dbux+BgxbdfsamhqHPahEqX3d1BGHPrVEGvPQ1Mi2g63IR1lQulxovrfNCd4PYbvfQGB6OMnb5VV5SoOJhxgjX8t3239QmqSS7AY6wuoreaMsGTYPlZ7Y/cVhhAeJBEutrp5RsgPe1XjorC8QkWUGSsNgiJq/1O4DgdyBo=
+  file: SodaStream.framework.zip
+  skip_cleanup: true
+  on:
+    repo: robenkleene/SodaStream
+    tags: true

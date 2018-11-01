@@ -31,9 +31,11 @@
                                                                   queue:nil
                                                              usingBlock:^(NSNotification *notification) {
                                                                  NSAssert(![self isRunning], @"The NSTask should not be running.");
-                                                                 didTerminate = YES;
                                                                  [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                                                                 completionHandler(YES);
+                                                                 if (!didTerminate) {
+                                                                     didTerminate = YES;
+                                                                     completionHandler(YES);
+                                                                 }
                                                              }];
     
     double delayInSeconds = kTaskInterruptTimeout;
@@ -43,10 +45,19 @@
             [[NSNotificationCenter defaultCenter] removeObserver:observer];
             NSAssert(useInterrupt, @"Terminate should always succeed.");
             NSAssert([self isRunning], @"The NSTask should be running.");
+            // `didTermiante` is technically false, but this will help prevent
+            // any completion handlers from running more than once
+            didTerminate = YES;
             completionHandler(NO);
         }
     });
     
+    if (self.isRunning == NO) {
+        didTerminate = YES;
+        completionHandler(YES);
+        return;
+    }
+
     if (useInterrupt) {
         [self interrupt];
     } else {

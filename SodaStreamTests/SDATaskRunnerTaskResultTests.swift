@@ -10,7 +10,6 @@
 import XCTest
 
 class SDATaskRunnerTaskResultTests: XCTestCase {
-
     func testInterruptTask() {
         let expectation = self.expectation(description: "Task finished")
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: "/usr/bin/yes",

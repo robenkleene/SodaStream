@@ -70,11 +70,11 @@ class TaskResultsCollector: NSObject {
                                                                  standardError: standardError)
         }
 
-        return NSError.makeTaskTerminatedNonzeroExitCodeError(launchPath: task.launchPath, exitCode:
-            task.terminationStatus,
-            arguments: task.arguments,
-            directoryPath: task.currentDirectoryPath,
-            standardError: standardError)
+        return NSError.makeTaskTerminatedNonzeroExitCodeError(launchPath: task.launchPath,
+                                                              exitCode: task.terminationStatus,
+                                                              arguments: task.arguments,
+                                                              directoryPath: task.currentDirectoryPath,
+                                                              standardError: standardError)
     }
 }
 

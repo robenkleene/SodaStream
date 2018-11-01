@@ -21,6 +21,13 @@
 + (void)terminateTasks:(nonnull NSArray<NSTask *> *)tasks
      completionHandler:(nullable void (^)(BOOL success))completionHandler
 {
+    if (tasks.count == 0) {
+        if (completionHandler) {
+            completionHandler(YES);
+        }
+        return;
+    }
+
     NSMutableArray *mutableTasks = [NSMutableArray arrayWithArray:tasks];
     __block BOOL tasksTerminated = NO;
     

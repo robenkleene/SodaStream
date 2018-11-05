@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4533F60D2190A59D00F53F38 /* SDAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4533F60C2190A59D00F53F38 /* SDAConstants.m */; };
 		45B4F4971FDDC5D3007CC3D0 /* SodaStream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */; };
 		45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4533F60C2190A59D00F53F38 /* SDAConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDAConstants.m; sourceTree = "<group>"; };
 		45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SodaStream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SodaStream.h; sourceTree = "<group>"; };
 		45B4F4911FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */,
 				45FB51781FDDD052008F6ADA /* SDAConstants.h */,
+				4533F60C2190A59D00F53F38 /* SDAConstants.m */,
 				45FB51761FDDCE33008F6ADA /* NSError+Errors.swift */,
 				45FB51651FDDCAE9008F6ADA /* NSError+TaskResult.swift */,
 				45FB51641FDDCAE9008F6ADA /* NSError+SDATaskRunner.swift */,
@@ -252,6 +255,7 @@
 				45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */,
 				45FB516D1FDDCAEA008F6ADA /* NSError+SDATaskRunner.swift in Sources */,
 				45FB51701FDDCAEA008F6ADA /* SDATaskRunner.m in Sources */,
+				4533F60D2190A59D00F53F38 /* SDAConstants.m in Sources */,
 				45FB51771FDDCE33008F6ADA /* NSError+Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

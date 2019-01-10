@@ -32,12 +32,6 @@
         task.currentDirectoryPath = directoryPath;
     }
 
-
-    // File handles and the termination handler callback on different queues
-    // processing those events serial assures that events are processed in the
-    // expected order: File handles are processed before the task finishes.
-    dispatch_queue_t callbackQueue = dispatch_queue_create("com.1percenter.WebConsoleTaskCallbackQueue", DISPATCH_QUEUE_SERIAL);
-    
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
@@ -45,7 +39,7 @@
         if (!data.bytes) {
             return;
         }
-        dispatch_async(callbackQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             os_log_info(logHandle, "Task did print to standard output, %@, %@", text, task.launchPath);
             [self processStandardOutput:text task:task delegate:delegate];
@@ -59,7 +53,7 @@
         if (!data.bytes) {
             return;
         }
-        dispatch_async(callbackQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             os_log_error(logHandle, "Task did print to standard error, %@, %@", text, task.launchPath);
             [self processStandardError:text task:task delegate:delegate];
@@ -76,7 +70,7 @@
         [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
         [[task.standardError fileHandleForReading] setReadabilityHandler:nil];
         
-        dispatch_async(callbackQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             // Standard Input, Output & Error
             if ([delegate respondsToSelector:@selector(taskDidFinish:)]) {
                 [delegate taskDidFinish:task];
@@ -164,6 +158,5 @@
         [delegate task:task didReadFromStandardError:text];
     }
 }
-
 
 @end

@@ -31,7 +31,7 @@ extension TaskResultsCollector: SDATaskRunnerDelegate {
     }
 }
 
-class TaskResultsCollector: NSObject {
+private class TaskResultsCollector: NSObject {
     var standardOutput: String?
     var standardError: String?
     var error: NSError?
@@ -41,7 +41,7 @@ class TaskResultsCollector: NSObject {
         self.completionHandler = completionHandler
     }
 
-    fileprivate func appendToStandardOutput(_ text: String) {
+    func appendToStandardOutput(_ text: String) {
         if standardOutput == nil {
             standardOutput = String()
         }
@@ -49,7 +49,7 @@ class TaskResultsCollector: NSObject {
         standardOutput? += text
     }
 
-    fileprivate func appendToStandardError(_ text: String) {
+    func appendToStandardError(_ text: String) {
         if standardError == nil {
             standardError = String()
         }
@@ -57,7 +57,7 @@ class TaskResultsCollector: NSObject {
         standardError? += text
     }
 
-    fileprivate func makeError(for task: Process) -> NSError? {
+    func makeError(for task: Process) -> NSError? {
         assert(!task.isRunning)
         if task.terminationStatus == 0 && task.terminationReason == .exit {
             return nil

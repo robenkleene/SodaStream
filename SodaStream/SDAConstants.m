@@ -16,8 +16,7 @@ os_log_t logHandle;
 
 @implementation SDATaskRunner (Log)
 
-+ (void)initialize
-{
++ (void)initialize {
     if (!logHandle) {
         logHandle = os_log_create("com.1percenter.SodaStream", "General");
     }

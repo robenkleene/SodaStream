@@ -12,15 +12,12 @@
 
 @implementation SDATaskHelper
 
-+ (void)terminateTask:(nonnull NSTask *)task
-    completionHandler:(nullable void (^)(BOOL success))completionHandler
-{
++ (void)terminateTask:(nonnull NSTask *)task completionHandler:(nullable void (^)(BOOL success))completionHandler {
     [self terminateTasks:@[task] completionHandler:completionHandler];
 }
 
 + (void)terminateTasks:(nonnull NSArray<NSTask *> *)tasks
-     completionHandler:(nullable void (^)(BOOL success))completionHandler
-{
+     completionHandler:(nullable void (^)(BOOL success))completionHandler {
     if (tasks.count == 0) {
         if (completionHandler) {
             completionHandler(YES);
@@ -30,14 +27,13 @@
 
     NSMutableArray *mutableTasks = [NSMutableArray arrayWithArray:tasks];
     __block BOOL tasksTerminated = NO;
-    
-    void (^completionHandlerBlock)(void) = ^void () {
+
+    void (^completionHandlerBlock)(void) = ^void() {
         if (![mutableTasks count]) {
             tasksTerminated = YES;
             if (completionHandler) {
                 completionHandler(YES);
             }
-
         }
     };
 

@@ -59,7 +59,7 @@ private class TaskResultsCollector: NSObject {
 
     func makeError(for task: Process) -> NSError? {
         assert(!task.isRunning)
-        if task.terminationStatus == 0 && task.terminationReason == .exit {
+        if task.terminationStatus == 0, task.terminationReason == .exit {
             return nil
         }
 

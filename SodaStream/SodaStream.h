@@ -14,8 +14,9 @@ FOUNDATION_EXPORT double SodaStreamVersionNumber;
 //! Project version string for SodaStream.
 FOUNDATION_EXPORT const unsigned char SodaStreamVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <SodaStream/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import
+// <SodaStream/PublicHeader.h>
 
-#import "SDATaskRunner.h"
-#import "SDATaskHelper.h"
 #import "NSTask+Termination.h"
+#import "SDATaskHelper.h"
+#import "SDATaskRunner.h"

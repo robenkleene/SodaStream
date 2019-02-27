@@ -26,18 +26,19 @@
 
     __block BOOL didTerminate = NO;
     __block id observer;
-    observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSTaskDidTerminateNotification
-                                                                 object:self
-                                                                  queue:nil
-                                                             usingBlock:^(NSNotification *notification) {
-                                                                 NSAssert(![self isRunning], @"The NSTask should not be running.");
-                                                                 [[NSNotificationCenter defaultCenter] removeObserver:observer];
-                                                                 if (!didTerminate) {
-                                                                     didTerminate = YES;
-                                                                     completionHandler(YES);
-                                                                 }
-                                                             }];
-    
+    observer = [[NSNotificationCenter defaultCenter]
+        addObserverForName:NSTaskDidTerminateNotification
+                    object:self
+                     queue:nil
+                usingBlock:^(NSNotification *notification) {
+                    NSAssert(![self isRunning], @"The NSTask should not be running.");
+                    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+                    if (!didTerminate) {
+                        didTerminate = YES;
+                        completionHandler(YES);
+                    }
+                }];
+
     double delayInSeconds = kTaskInterruptTimeout;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
@@ -51,7 +52,7 @@
             completionHandler(NO);
         }
     });
-    
+
     if (self.isRunning == NO) {
         didTerminate = YES;
         completionHandler(YES);

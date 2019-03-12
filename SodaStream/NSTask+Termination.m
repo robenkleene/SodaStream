@@ -54,7 +54,10 @@
     });
 
     if (self.isRunning == NO) {
-        didTerminate = YES;
+        if (!didTerminate) {
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+            didTerminate = YES;
+        }
         completionHandler(YES);
         return;
     }

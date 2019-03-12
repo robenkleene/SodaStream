@@ -25,7 +25,7 @@
 - (void)terminateUseInterrupt:(BOOL)useInterrupt completionHandler:(void (^)(BOOL success))completionHandler {
 
     __block BOOL didTerminate = NO;
-    __block id observer;
+    __block __weak id observer;
     observer = [[NSNotificationCenter defaultCenter]
         addObserverForName:NSTaskDidTerminateNotification
                     object:self
@@ -54,7 +54,10 @@
     });
 
     if (self.isRunning == NO) {
-        didTerminate = YES;
+        if (!didTerminate) {
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+            didTerminate = YES;
+        }
         completionHandler(YES);
         return;
     }

@@ -40,7 +40,8 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            os_log_info(logHandle, "Task did print to standard output, %@, %@", text, task.launchPath);
+            os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
+                        task.launchPath);
             [self processStandardOutput:text task:task delegate:delegate];
         });
     }];
@@ -54,7 +55,8 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            os_log_error(logHandle, "Task did print to standard error, %@, %@", text, task.launchPath);
+            os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
+                         task.launchPath);
             [self processStandardError:text task:task delegate:delegate];
         });
     }];
@@ -64,7 +66,7 @@
 
     // Termination handler
     [task setTerminationHandler:^(NSTask *task) {
-        os_log_info(logHandle, "Task did terminate, %@", task.launchPath);
+        os_log_info(logHandle, "Task did terminate, %i %@", task.processIdentifier, task.launchPath);
 
         [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
         [[task.standardError fileHandleForReading] setReadabilityHandler:nil];

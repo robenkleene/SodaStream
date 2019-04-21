@@ -15,6 +15,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: "/usr/bin/yes",
                                                withArguments: nil,
                                                inDirectoryPath: nil,
+                                               withEnvironment: nil,
                                                timeout: 0.0) { (_, _, error) -> Void in
             XCTAssertNotNil(error)
             guard let error = error else {
@@ -43,8 +44,8 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
 
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                withArguments: nil,
-                                               inDirectoryPath: nil) { (standardOutput, _, error) -> Void in
-
+                                               inDirectoryPath: nil,
+                                               withEnvironment: nil) { (standardOutput, _, error) -> Void in
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {
                 XCTAssertTrue(false)
@@ -66,8 +67,9 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         let expectation = self.expectation(description: "Task finished")
 
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: "/bin/cat",
-                                               withArguments: [testDataPath as AnyObject],
-                                               inDirectoryPath: nil) { (standardOutput, _, error) -> Void in
+                                               withArguments: [testDataPath],
+                                               inDirectoryPath: nil,
+                                               withEnvironment: nil) { (standardOutput, _, error) -> Void in
 
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {

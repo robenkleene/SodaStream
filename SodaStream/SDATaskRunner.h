@@ -24,16 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
     didRunCommandPath:(NSString *)commandPath
             arguments:(nullable NSArray<NSString *> *)arguments
         directoryPath:(nullable NSString *)directoryPath;
-#pragma mark Data Source
-- (nullable NSDictionary *)environmentDictionaryForPluginTask:(NSTask *)task;
 @end
 NS_ASSUME_NONNULL_END
 
 NS_ASSUME_NONNULL_BEGIN
 @interface SDATaskRunner : NSObject
 + (NSTask *)runTaskWithCommandPath:(NSString *)commandPath
-                     withArguments:(nullable NSArray *)arguments
+                     withArguments:(nullable NSArray<NSString *> *)arguments
                    inDirectoryPath:(nullable NSString *)directoryPath
+                   withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
                           delegate:(nullable id<SDATaskRunnerDelegate>)delegate
                  completionHandler:(nullable void (^)(BOOL success))completionHandler;
 @end

@@ -13,11 +13,12 @@
 
 @implementation SDATaskRunner
 
-+ (nonnull NSTask *)runTaskWithCommandPath:(NSString *)commandPath
-                             withArguments:(NSArray *)arguments
-                           inDirectoryPath:(NSString *)directoryPath
-                                  delegate:(id<SDATaskRunnerDelegate>)delegate
-                         completionHandler:(void (^)(BOOL success))completionHandler {
++ (NSTask *)runTaskWithCommandPath:(NSString *)commandPath
+                     withArguments:(nullable NSArray<NSString *> *)arguments
+                   inDirectoryPath:(nullable NSString *)directoryPath
+                   withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
+                          delegate:(nullable id<SDATaskRunnerDelegate>)delegate
+                 completionHandler:(nullable void (^)(BOOL success))completionHandler {
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = commandPath;
 
@@ -95,10 +96,6 @@
             [delegate taskWillStart:task];
         }
 
-        NSDictionary *environmentDictionary;
-        if ([delegate respondsToSelector:@selector(environmentDictionaryForPluginTask:)]) {
-            environmentDictionary = [delegate environmentDictionaryForPluginTask:task];
-        }
         if (environmentDictionary) {
             [task setEnvironment:environmentDictionary];
         }

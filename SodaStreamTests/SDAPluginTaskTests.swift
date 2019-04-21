@@ -29,6 +29,7 @@ class SDATaskRunnerTests: XCTestCase {
         SDATaskRunner.runTask(withCommandPath: "invalid path",
                               withArguments: nil,
                               inDirectoryPath: nil,
+                              withEnvironment: nil,
                               delegate: self) { (success) -> Void in
             XCTAssertFalse(success)
             expection.fulfill()

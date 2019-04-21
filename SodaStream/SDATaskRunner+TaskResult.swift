@@ -82,20 +82,23 @@ extension SDATaskRunner {
     public typealias TaskResult = (_ standardOutput: String?, _ standardError: String?, _ error: NSError?) -> Void
 
     public class func runTaskUntilFinished(withCommandPath commandPath: String,
-                                           withArguments arguments: [AnyObject]?,
+                                           withArguments arguments: [String]?,
                                            inDirectoryPath directoryPath: String?,
+                                           withEnvironment environment: [String: String]?,
                                            completionHandler: @escaping SDATaskRunner.TaskResult) -> Process {
         let timeout = 20.0
         return runTaskUntilFinished(withCommandPath: commandPath,
                                     withArguments: arguments,
                                     inDirectoryPath: directoryPath,
+                                    withEnvironment: environment,
                                     timeout: timeout,
                                     completionHandler: completionHandler)
     }
 
     public class func runTaskUntilFinished(withCommandPath commandPath: String,
-                                           withArguments arguments: [AnyObject]?,
+                                           withArguments arguments: [String]?,
                                            inDirectoryPath directoryPath: String?,
+                                           withEnvironment environment: [String: String]?,
                                            timeout: TimeInterval,
                                            completionHandler: @escaping SDATaskRunner.TaskResult) -> Process {
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
@@ -105,20 +108,23 @@ extension SDATaskRunner {
         return runTaskWithCommandPath(commandPath,
                                       withArguments: arguments,
                                       inDirectoryPath: directoryPath,
+                                      withEnvironment: environment,
                                       timeout: timeout,
                                       delegate: taskResultsCollector,
                                       completionHandler: nil)
     }
 
     class func runTaskWithCommandPath(_ commandPath: String,
-                                      withArguments arguments: [AnyObject]?,
+                                      withArguments arguments: [String]?,
                                       inDirectoryPath directoryPath: String?,
+                                      withEnvironment environment: [String: String]?,
                                       timeout: TimeInterval,
                                       delegate: SDATaskRunnerDelegate?,
                                       completionHandler: ((Bool) -> Void)?) -> Process {
         let task = runTask(withCommandPath: commandPath,
                            withArguments: arguments,
                            inDirectoryPath: directoryPath,
+                           withEnvironment: environment,
                            delegate: delegate,
                            completionHandler: completionHandler)
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {

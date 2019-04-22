@@ -32,6 +32,10 @@
         task.currentDirectoryPath = directoryPath;
     }
 
+    if (environmentDictionary) {
+        [task setEnvironment:environmentDictionary];
+    }
+
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
@@ -94,10 +98,6 @@
             // the environment dictionary in order to assure that the
             // correct window number is returned.
             [delegate taskWillStart:task];
-        }
-
-        if (environmentDictionary) {
-            [task setEnvironment:environmentDictionary];
         }
 
         BOOL success = NO;

@@ -29,7 +29,7 @@ extension XCTestCase {
         } catch let error as NSError {
             XCTAssertNil(error)
         } catch {
-            XCTAssertTrue(false)
+            XCTFail()
         }
         return nil
     }

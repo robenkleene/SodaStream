@@ -19,7 +19,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                                timeout: 0.0) { (_, _, error) -> Void in
             XCTAssertNotNil(error)
             guard let error = error else {
-                XCTAssertTrue(false)
+                XCTFail()
                 return
             }
 
@@ -48,7 +48,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                                withEnvironment: nil) { (standardOutput, _, error) -> Void in
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {
-                XCTAssertTrue(false)
+                XCTFail()
                 return
             }
 
@@ -73,7 +73,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
 
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {
-                XCTAssertTrue(false)
+                XCTFail()
                 return
             }
 
@@ -84,6 +84,30 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                 XCTAssertNil(error)
             }
 
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: testTimeout, handler: nil)
+    }
+
+    func testEnvironment() {
+        let commandPath = path(forResource: testDataEchoMessage,
+                               ofType: testDataShellScriptExtension,
+                               inDirectory: testDataSubdirectory)!
+        let environment = [testDataMessageKey: testDataMessageText]
+
+        let expectation = self.expectation(description: "Task finished")
+
+        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
+                                               withArguments: nil,
+                                               inDirectoryPath: nil,
+                                               withEnvironment: environment) { (standardOutput, _, error) -> Void in
+            XCTAssertNil(error)
+            guard let standardOutput = standardOutput else {
+                XCTFail()
+                return
+            }
+            XCTAssertTrue(standardOutput.hasPrefix("A message"))
             expectation.fulfill()
         }
 

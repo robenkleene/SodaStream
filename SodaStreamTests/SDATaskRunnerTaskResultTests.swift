@@ -107,7 +107,6 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                                     XCTFail()
                                                     return
                                                 }
-                                                
                                                 XCTAssertTrue(standardOutput.hasPrefix("A message"))
                                                 expectation.fulfill()
         }

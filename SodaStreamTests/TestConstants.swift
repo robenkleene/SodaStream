@@ -15,3 +15,7 @@ let testDataShellScriptCatName = "cat"
 let testDataShellScriptExtension = "sh"
 let testDataRubyFileExtension = "rb"
 let testDataHelloWorld = "hello_world"
+let testDataEchoMessage = "echo_message"
+
+let testDataMessageKey = "MESSAGE"
+let testDataMessageText = "A message"

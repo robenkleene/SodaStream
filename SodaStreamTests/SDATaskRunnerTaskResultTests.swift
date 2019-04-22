@@ -95,22 +95,22 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
                                ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
         let environment = [testDataMessageKey: testDataMessageText]
-        
+
         let expectation = self.expectation(description: "Task finished")
-        
+
         _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                withArguments: nil,
                                                inDirectoryPath: nil,
                                                withEnvironment: environment) { (standardOutput, _, error) -> Void in
-                                                XCTAssertNil(error)
-                                                guard let standardOutput = standardOutput else {
-                                                    XCTFail()
-                                                    return
-                                                }
-                                                XCTAssertTrue(standardOutput.hasPrefix("A message"))
-                                                expectation.fulfill()
+            XCTAssertNil(error)
+            guard let standardOutput = standardOutput else {
+                XCTFail()
+                return
+            }
+            XCTAssertTrue(standardOutput.hasPrefix("A message"))
+            expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
 }

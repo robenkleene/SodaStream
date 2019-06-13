@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4533F60D2190A59D00F53F38 /* SDAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4533F60C2190A59D00F53F38 /* SDAConstants.m */; };
+		453BE08222B2E2D60002D930 /* SDAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51781FDDD052008F6ADA /* SDAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45B4F4971FDDC5D3007CC3D0 /* SodaStream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */; };
 		45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */; };
@@ -141,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */,
+				453BE08222B2E2D60002D930 /* SDAConstants.h in Headers */,
 				45FB51711FDDCAEA008F6ADA /* SDATaskRunner.h in Headers */,
 				45FB516F1FDDCAEA008F6ADA /* SDATaskHelper.h in Headers */,
 				45FB516A1FDDCAEA008F6ADA /* NSTask+Termination.h in Headers */,

@@ -118,16 +118,16 @@
         }
 
         if (success) {
-            if ([delegate respondsToSelector:@selector(task:didRunCommandPath:arguments:directoryPath:)]) {
-                [delegate task:task didRunCommandPath:commandPath arguments:arguments directoryPath:directoryPath];
+            if ([delegate respondsToSelector:@selector(task:didRunCommandPath:arguments:directoryPath:withEnvironment:)]) {
+                [delegate task:task didRunCommandPath:commandPath arguments:arguments directoryPath:directoryPath withEnvironment:environmentDictionary];
             }
         } else {
             if (error == nil) {
                 error = [NSError commandPathUnkownErrorWithLaunchPath:launchPath];
             }
 
-            if ([delegate respondsToSelector:@selector(task:didFailToRunCommandPath:error:)]) {
-                [delegate task:task didFailToRunCommandPath:launchPath error:error];
+            if ([delegate respondsToSelector:@selector(task:didFailToRunCommandPath:arguments:directoryPath:withEnvironment:error:)]) {
+                [delegate task:task didFailToRunCommandPath:launchPath arguments:arguments directoryPath:directoryPath withEnvironment:environmentDictionary error:error];
             }
         }
 

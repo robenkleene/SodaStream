@@ -18,6 +18,6 @@ FOUNDATION_EXPORT const unsigned char SodaStreamVersionString[];
 // <SodaStream/PublicHeader.h>
 
 #import "NSTask+Termination.h"
+#import "SDAConstants.h"
 #import "SDATaskHelper.h"
 #import "SDATaskRunner.h"
-#import "SDAConstants.h"

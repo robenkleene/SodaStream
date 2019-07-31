@@ -63,7 +63,6 @@ class SDATastkRunnerTests: XCTestCase {
             XCTAssertNil(runResult.arguments)
             XCTAssertNil(runResult.directoryPath)
             XCTAssertNil(runResult.environmentDictionary)
-            XCTAssertNil(runResult.error)
             finishedExpectation.fulfill()
         }
 
@@ -98,27 +97,39 @@ class SDATastkRunnerTests: XCTestCase {
     }
 
     
-//    func testEnvironment() {
-//        let commandPath = path(forResource: testDataEchoMessage,
-//                               ofType: testDataShellScriptExtension,
-//                               inDirectory: testDataSubdirectory)!
-//        let environment = [testDataMessageKey: testDataMessageText]
-//
-//        let expectation = self.expectation(description: "Task finished")
-//
-//        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-//                                               withArguments: nil,
-//                                               inDirectoryPath: nil,
-//                                               withEnvironment: environment) { (standardOutput, _, error) -> Void in
-//                                                XCTAssertNil(error)
-//                                                guard let standardOutput = standardOutput else {
-//                                                    XCTFail()
-//                                                    return
-//                                                }
-//                                                XCTAssertTrue(standardOutput.hasPrefix("A message"))
-//                                                expectation.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: testTimeout, handler: nil)
-//    }
+    func testEnvironment() {
+        let runResult = RunResult()
+        let commandPath = path(forResource: testDataEchoMessage,
+                               ofType: testDataShellScriptExtension,
+                               inDirectory: testDataSubdirectory)!
+        let environment = [testDataMessageKey: testDataMessageText]
+
+        let finishedExpectation = self.expectation(description: "Task finished")
+        let outputExpectation = self.expectation(description: "Output expectation")
+
+        SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: environment, delegate: runResult) { success in
+            XCTAssertTrue(success)
+            XCTAssertEqual(runResult.commandPath, commandPath)
+            XCTAssertNil(runResult.error)
+            XCTAssertNil(runResult.arguments)
+            XCTAssertNil(runResult.directoryPath)
+            guard let environmentDictionary = runResult.environmentDictionary else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(runResult.environmentDictionary, environmentDictionary)
+            finishedExpectation.fulfill()
+        }
+
+        runResult.standardOutputCompletionHandler = {
+            guard let standardOutput = runResult.standardOutput else {
+                XCTFail()
+                return
+            }
+            XCTAssertTrue(standardOutput.hasPrefix("A message"))
+            outputExpectation.fulfill()
+        }
+
+        waitForExpectations(timeout: testTimeout, handler: nil)
+    }
 }

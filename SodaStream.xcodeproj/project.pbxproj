@@ -11,6 +11,7 @@
 		453BE08222B2E2D60002D930 /* SDAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51781FDDD052008F6ADA /* SDAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45B4F4971FDDC5D3007CC3D0 /* SodaStream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4F48D1FDDC5D3007CC3D0 /* SodaStream.framework */; };
 		45B4F49E1FDDC5D3007CC3D0 /* SodaStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 45B4F4901FDDC5D3007CC3D0 /* SodaStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45C9A09C22F0F7CF00FFC59A /* SDATastkRunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A09B22F0F7CF00FFC59A /* SDATastkRunnerTests.swift */; };
 		45FB51691FDDCAEA008F6ADA /* SDATaskHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */; };
 		45FB516A1FDDCAEA008F6ADA /* NSTask+Termination.h in Headers */ = {isa = PBXBuildFile; fileRef = 45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		45FB516B1FDDCAEA008F6ADA /* NSTask+Termination.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FB51621FDDCAE9008F6ADA /* NSTask+Termination.m */; };
@@ -45,6 +46,7 @@
 		45B4F4911FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45B4F4961FDDC5D3007CC3D0 /* SodaStreamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SodaStreamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4F49D1FDDC5D3007CC3D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45C9A09B22F0F7CF00FFC59A /* SDATastkRunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDATastkRunnerTests.swift; sourceTree = "<group>"; };
 		45FB51601FDDCAE9008F6ADA /* SDATaskHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDATaskHelper.m; sourceTree = "<group>"; };
 		45FB51611FDDCAE9008F6ADA /* NSTask+Termination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+Termination.h"; sourceTree = "<group>"; };
 		45FB51621FDDCAE9008F6ADA /* NSTask+Termination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+Termination.m"; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				45FB517D1FDDDE50008F6ADA /* Data */,
 				45FB51721FDDCAF4008F6ADA /* SDAPluginTaskTests.swift */,
+				45C9A09B22F0F7CF00FFC59A /* SDATastkRunnerTests.swift */,
 				45FB51731FDDCAF4008F6ADA /* SDATaskRunnerTaskResultTests.swift */,
 				45B4F49D1FDDC5D3007CC3D0 /* Info.plist */,
 				45FB51791FDDD6C5008F6ADA /* TestConstants.swift */,
@@ -271,6 +274,7 @@
 				45FB517C1FDDD9AD008F6ADA /* XCTestCase+BundleResources.swift in Sources */,
 				45FB51751FDDCAF4008F6ADA /* SDATaskRunnerTaskResultTests.swift in Sources */,
 				45FB517A1FDDD6C5008F6ADA /* TestConstants.swift in Sources */,
+				45C9A09C22F0F7CF00FFC59A /* SDATastkRunnerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

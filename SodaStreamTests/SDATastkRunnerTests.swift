@@ -78,46 +78,26 @@ class SDATastkRunnerTests: XCTestCase {
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
     
-//    func testStandardOutput() {
-//        let commandPath = path(forResource: testDataHelloWorld,
-//                               ofType: testDataShellScriptExtension,
-//                               inDirectory: testDataSubdirectory)!
-//
-//        let expectation = self.expectation(description: "Task finished")
-//
-//        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-//                                               withArguments: nil,
-//                                               inDirectoryPath: nil,
-//                                               withEnvironment: nil) { (standardOutput, _, error) -> Void in
-//                                                XCTAssertNil(error)
-//                                                guard let standardOutput = standardOutput else {
-//                                                    XCTFail()
-//                                                    return
-//                                                }
-//
-//                                                XCTAssertTrue(standardOutput.hasPrefix("Hello World"))
-//                                                expectation.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: testTimeout, handler: nil)
-//    }
-//
-//    func testInvalidCommandPath() {
-//        let expection = expectation(description: "Run task")
-//        didFailToRunCommandPathExpectation = expectation(description: "Did fail to run command path")
-//
-//        SDATaskRunner.runTask(withCommandPath: "invalid path",
-//                              withArguments: nil,
-//                              inDirectoryPath: nil,
-//                              withEnvironment: nil,
-//                              delegate: self) { (success) -> Void in
-//                                XCTAssertFalse(success)
-//                                expection.fulfill()
-//        }
-//        waitForExpectations(timeout: testTimeout, handler: nil)
-//    }
-//
-//
+    func testInvalidCommandPath() {
+        let runResult = RunResult()
+        let commandPath = "invalid path"
+        let failExpectation = expectation(description: "Run failure")
+
+        
+        SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: nil, delegate: runResult) { success in
+            XCTAssertFalse(success)
+            XCTAssertEqual(runResult.commandPath, commandPath)
+            XCTAssertNil(runResult.arguments)
+            XCTAssertNil(runResult.directoryPath)
+            XCTAssertNil(runResult.environmentDictionary)
+            XCTAssertNotNil(runResult.error)
+            failExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: testTimeout, handler: nil)
+    }
+
+    
 //    func testEnvironment() {
 //        let commandPath = path(forResource: testDataEchoMessage,
 //                               ofType: testDataShellScriptExtension,

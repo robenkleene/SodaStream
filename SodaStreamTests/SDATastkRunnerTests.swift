@@ -18,7 +18,12 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
     var standardOutput: String?
     var standardError: String?
     var standardOutputCompletionHandler: (() -> Void)?
-    func task(_: Process, didFailToRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String: String]?, error: Error) {
+    func task(_: Process,
+              didFailToRunCommandPath commandPath: String,
+              arguments: [String]?,
+              directoryPath: String?,
+              withEnvironment environmentDictionary: [String: String]?,
+              error: Error) {
         self.commandPath = commandPath
         self.arguments = arguments
         self.directoryPath = directoryPath
@@ -26,7 +31,11 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
         self.error = error
     }
 
-    func task(_: Process, didRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String: String]?) {
+    func task(_: Process,
+              didRunCommandPath commandPath: String,
+              arguments: [String]?,
+              directoryPath: String?,
+              withEnvironment environmentDictionary: [String: String]?) {
         self.commandPath = commandPath
         self.arguments = arguments
         self.directoryPath = directoryPath
@@ -56,7 +65,11 @@ class SDATastkRunnerTests: XCTestCase {
         let finishedExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
-        SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: nil, delegate: runResult) { success in
+        SDATaskRunner.runTask(withCommandPath: commandPath,
+                              withArguments: nil,
+                              inDirectoryPath: nil,
+                              withEnvironment: nil,
+                              delegate: runResult) { success in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
@@ -82,7 +95,11 @@ class SDATastkRunnerTests: XCTestCase {
         let commandPath = "invalid path"
         let failExpectation = expectation(description: "Run failure")
 
-        SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: nil, delegate: runResult) { success in
+        SDATaskRunner.runTask(withCommandPath: commandPath,
+                              withArguments: nil,
+                              inDirectoryPath: nil,
+                              withEnvironment: nil,
+                              delegate: runResult) { success in
             XCTAssertFalse(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.arguments)
@@ -105,7 +122,11 @@ class SDATastkRunnerTests: XCTestCase {
         let finishedExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
-        SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: environment, delegate: runResult) { success in
+        SDATaskRunner.runTask(withCommandPath: commandPath,
+                              withArguments: nil,
+                              inDirectoryPath: nil,
+                              withEnvironment: environment,
+                              delegate: runResult) { success in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)

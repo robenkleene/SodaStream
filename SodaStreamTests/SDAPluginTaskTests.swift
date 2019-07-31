@@ -10,7 +10,10 @@
 import XCTest
 
 extension SDATaskRunnerTests: SDATaskRunnerDelegate {
-    func task(_: Process, didFailToRunCommandPath _: String, arguments _: [String]?, directoryPath _: String?, withEnvironment _: [String: String]?, error: Error) {
+    func task(_: Process, didFailToRunCommandPath _: String,
+              arguments _: [String]?,
+              directoryPath _: String?,
+              withEnvironment _: [String: String]?, error: Error) {
         XCTAssertNotNil(error)
         XCTAssert((error as NSError).code == RunCommandPathErrorCode.unexecutable.rawValue)
         if let didFailToRunCommandPathExpectation = didFailToRunCommandPathExpectation {

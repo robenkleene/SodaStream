@@ -13,12 +13,12 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
     var commandPath: String?
     var arguments: [String]?
     var directoryPath: String?
-    var environmentDictionary: [String : String]?
+    var environmentDictionary: [String: String]?
     var error: Error?
     var standardOutput: String?
     var standardError: String?
-    var standardOutputCompletionHandler: (() -> ())?
-    func task(_ task: Process, didFailToRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String : String]?, error: Error) {
+    var standardOutputCompletionHandler: (() -> Void)?
+    func task(_: Process, didFailToRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String: String]?, error: Error) {
         self.commandPath = commandPath
         self.arguments = arguments
         self.directoryPath = directoryPath
@@ -26,19 +26,19 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
         self.error = error
     }
 
-    func task(_ task: Process, didRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String : String]?) {
+    func task(_: Process, didRunCommandPath commandPath: String, arguments: [String]?, directoryPath: String?, withEnvironment environmentDictionary: [String: String]?) {
         self.commandPath = commandPath
         self.arguments = arguments
         self.directoryPath = directoryPath
         self.environmentDictionary = environmentDictionary
     }
 
-    func task(_ task: Process, didReadFromStandardError text: String) {
-        self.standardError = text
+    func task(_: Process, didReadFromStandardError text: String) {
+        standardError = text
     }
 
-    func task(_ task: Process, didReadFromStandardOutput text: String) {
-        self.standardOutput = text
+    func task(_: Process, didReadFromStandardOutput text: String) {
+        standardOutput = text
         guard let standardOutputCompletionHandler = standardOutputCompletionHandler else {
             return
         }
@@ -52,10 +52,10 @@ class SDATastkRunnerTests: XCTestCase {
         let commandPath = path(forResource: testDataHelloWorld,
                                ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
-        
-        let finishedExpectation = self.expectation(description: "Task finished")
-        let outputExpectation = self.expectation(description: "Output expectation")
-        
+
+        let finishedExpectation = expectation(description: "Task finished")
+        let outputExpectation = expectation(description: "Output expectation")
+
         SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: nil, delegate: runResult) { success in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
@@ -76,13 +76,12 @@ class SDATastkRunnerTests: XCTestCase {
         }
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testInvalidCommandPath() {
         let runResult = RunResult()
         let commandPath = "invalid path"
         let failExpectation = expectation(description: "Run failure")
 
-        
         SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: nil, delegate: runResult) { success in
             XCTAssertFalse(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
@@ -92,11 +91,10 @@ class SDATastkRunnerTests: XCTestCase {
             XCTAssertNotNil(runResult.error)
             failExpectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
-    
     func testEnvironment() {
         let runResult = RunResult()
         let commandPath = path(forResource: testDataEchoMessage,
@@ -104,8 +102,8 @@ class SDATastkRunnerTests: XCTestCase {
                                inDirectory: testDataSubdirectory)!
         let environment = [testDataMessageKey: testDataMessageText]
 
-        let finishedExpectation = self.expectation(description: "Task finished")
-        let outputExpectation = self.expectation(description: "Output expectation")
+        let finishedExpectation = expectation(description: "Task finished")
+        let outputExpectation = expectation(description: "Output expectation")
 
         SDATaskRunner.runTask(withCommandPath: commandPath, withArguments: nil, inDirectoryPath: nil, withEnvironment: environment, delegate: runResult) { success in
             XCTAssertTrue(success)

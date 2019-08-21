@@ -113,8 +113,7 @@
     }
 
     if (success) {
-        if ([delegate respondsToSelector:@selector(task:
-                                             didRunCommandPath:arguments:directoryPath:withEnvironment:)]) {
+        if ([delegate respondsToSelector:@selector(task:didRunCommandPath:arguments:directoryPath:withEnvironment:)]) {
             [delegate task:task
                 didRunCommandPath:commandPath
                         arguments:arguments
@@ -126,8 +125,8 @@
             error = [NSError commandPathUnkownErrorWithLaunchPath:launchPath];
         }
 
-        if ([delegate respondsToSelector:@selector
-                      (task:didFailToRunCommandPath:arguments:directoryPath:withEnvironment:error:)]) {
+        if ([delegate respondsToSelector:@selector(task:
+                                             didFailToRunCommandPath:arguments:directoryPath:withEnvironment:error:)]) {
             [delegate task:task
                 didFailToRunCommandPath:launchPath
                               arguments:arguments

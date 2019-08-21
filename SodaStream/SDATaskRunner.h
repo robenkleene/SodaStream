@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Starting & Finishing Tasks
 - (void)taskWillStart:(NSTask *)task;
 - (void)taskDidFinish:(NSTask *)task;
+- (BOOL)taskShouldStart:(NSTask *)task;
 - (void)task:(NSTask *)task
     didFailToRunCommandPath:(NSString *)commandPath
                   arguments:(nullable NSArray<NSString *> *)arguments

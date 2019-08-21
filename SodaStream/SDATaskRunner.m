@@ -88,10 +88,10 @@
         });
     }];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // An infinite loop results if this isn't dispatched to the main queue.
-        // Even if it's already on the main queue, it still needs to be
-        // dispatched, or the infinite loop results.
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        // An infinite loop results if this isn't dispatched to the main queue.
+//        // Even if it's already on the main queue, it still needs to be
+//        // dispatched, or the infinite loop results.
 
         if ([delegate respondsToSelector:@selector(taskWillStart:)]) {
             // The plugin task delegate must be informed before calculating
@@ -145,7 +145,7 @@
         if (completionHandler) {
             completionHandler(success);
         }
-    });
+//    });
 
     return task;
 }

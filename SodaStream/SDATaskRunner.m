@@ -88,64 +88,58 @@
         });
     }];
 
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        // An infinite loop results if this isn't dispatched to the main queue.
-//        // Even if it's already on the main queue, it still needs to be
-//        // dispatched, or the infinite loop results.
+    if ([delegate respondsToSelector:@selector(taskWillStart:)]) {
+        // The plugin task delegate must be informed before calculating
+        // the environment dictionary in order to assure that the
+        // correct window number is returned.
+        [delegate taskWillStart:task];
+    }
 
-        if ([delegate respondsToSelector:@selector(taskWillStart:)]) {
-            // The plugin task delegate must be informed before calculating
-            // the environment dictionary in order to assure that the
-            // correct window number is returned.
-            [delegate taskWillStart:task];
-        }
-
-        BOOL success = NO;
-        NSError *error;
-        NSString *launchPath = [task launchPath];
-        if ([[NSFileManager defaultManager] isExecutableFileAtPath:launchPath]) {
-            @try {
-                [task launch];
-                success = YES;
-            } @catch (NSException *exception) {
-                error = [NSError commandPathExceptionErrorWithLaunchPath:launchPath];
-                if (completionHandler) {
-                    completionHandler(NO);
-                }
-            }
-        } else {
-            error = [NSError commandPathUnexecutableErrorWithLaunchPath:launchPath];
-        }
-
-        if (success) {
-            if ([delegate respondsToSelector:@selector(task:
-                                                 didRunCommandPath:arguments:directoryPath:withEnvironment:)]) {
-                [delegate task:task
-                    didRunCommandPath:commandPath
-                            arguments:arguments
-                        directoryPath:directoryPath
-                      withEnvironment:environmentDictionary];
-            }
-        } else {
-            if (error == nil) {
-                error = [NSError commandPathUnkownErrorWithLaunchPath:launchPath];
-            }
-
-            if ([delegate respondsToSelector:@selector
-                          (task:didFailToRunCommandPath:arguments:directoryPath:withEnvironment:error:)]) {
-                [delegate task:task
-                    didFailToRunCommandPath:launchPath
-                                  arguments:arguments
-                              directoryPath:directoryPath
-                            withEnvironment:environmentDictionary
-                                      error:error];
+    BOOL success = NO;
+    NSError *error;
+    NSString *launchPath = [task launchPath];
+    if ([[NSFileManager defaultManager] isExecutableFileAtPath:launchPath]) {
+        @try {
+            [task launch];
+            success = YES;
+        } @catch (NSException *exception) {
+            error = [NSError commandPathExceptionErrorWithLaunchPath:launchPath];
+            if (completionHandler) {
+                completionHandler(NO);
             }
         }
+    } else {
+        error = [NSError commandPathUnexecutableErrorWithLaunchPath:launchPath];
+    }
 
-        if (completionHandler) {
-            completionHandler(success);
+    if (success) {
+        if ([delegate respondsToSelector:@selector(task:
+                                             didRunCommandPath:arguments:directoryPath:withEnvironment:)]) {
+            [delegate task:task
+                didRunCommandPath:commandPath
+                        arguments:arguments
+                    directoryPath:directoryPath
+                  withEnvironment:environmentDictionary];
         }
-//    });
+    } else {
+        if (error == nil) {
+            error = [NSError commandPathUnkownErrorWithLaunchPath:launchPath];
+        }
+
+        if ([delegate respondsToSelector:@selector
+                      (task:didFailToRunCommandPath:arguments:directoryPath:withEnvironment:error:)]) {
+            [delegate task:task
+                didFailToRunCommandPath:launchPath
+                              arguments:arguments
+                          directoryPath:directoryPath
+                        withEnvironment:environmentDictionary
+                                  error:error];
+        }
+    }
+
+    if (completionHandler) {
+        completionHandler(success);
+    }
 
     return task;
 }

@@ -36,11 +36,19 @@
         [task setEnvironment:environmentDictionary];
     }
 
+
+    // A dispatch group is used to assure that all output gets read from
+    // standard output and error fter the task terminates
+    dispatch_group_t group = dispatch_group_create();
+
     // Standard Output
+    dispatch_group_enter(group);
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            NSLog(@"%s LEAVE", __PRETTY_FUNCTION__);
+            dispatch_group_leave(group);
             return;
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -50,10 +58,13 @@
     }];
 
     // Standard Error
+    dispatch_group_enter(group);
     task.standardError = [NSPipe pipe];
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            NSLog(@"%s LEAVE", __PRETTY_FUNCTION__);
+            dispatch_group_leave(group);
             return;
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -68,6 +79,8 @@
     // Termination handler
     [task setTerminationHandler:^(NSTask *task) {
         os_log_info(logHandle, "Task did terminate, %i %@", task.processIdentifier, task.launchPath);
+
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 
         [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
         [[task.standardError fileHandleForReading] setReadabilityHandler:nil];

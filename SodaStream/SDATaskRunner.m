@@ -40,26 +40,14 @@
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
-        if (!data.bytes) {
-            return;
-        }
-        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
-                    task.launchPath);
-        [self processStandardOutput:text task:task delegate:delegate];
+        [self processStandardOutputData:data task:task delegate:delegate];
     }];
 
     // Standard Error
     task.standardError = [NSPipe pipe];
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
-        if (!data.bytes) {
-            return;
-        }
-        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
-                     task.launchPath);
-        [self processStandardError:text task:task delegate:delegate];
+        [self processStandardErrorData:data task:task delegate:delegate];
     }];
 
     // Standard Input
@@ -71,6 +59,10 @@
 
         [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
         [[task.standardError fileHandleForReading] setReadabilityHandler:nil];
+        NSData *standardOutputData = [[task.standardOutput fileHandleForReading] availableData];
+        [self processStandardOutputData:standardOutputData task:task delegate:delegate];
+        NSData *standardErrorData = [[task.standardError fileHandleForReading] availableData];
+        [self processStandardErrorData:standardErrorData task:task delegate:delegate];
 
         if ([delegate respondsToSelector:@selector(taskDidFinish:)]) {
             [delegate taskDidFinish:task];
@@ -134,6 +126,26 @@
     }
 
     return task;
+}
+
++ (void)processStandardOutputData:(NSData *)data task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {
+    if (!data.bytes) {
+        return;
+    }
+    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
+                task.launchPath);
+    [self processStandardOutput:text task:task delegate:delegate];
+}
+
++ (void)processStandardErrorData:(NSData *)data task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {
+    if (!data.bytes) {
+        return;
+    }
+    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
+                 task.launchPath);
+    [self processStandardError:text task:task delegate:delegate];
 }
 
 + (void)processStandardOutput:(NSString *)text task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {

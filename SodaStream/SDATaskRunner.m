@@ -18,7 +18,7 @@
                    inDirectoryPath:(nullable NSString *)directoryPath
                    withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
                           delegate:(nullable id<SDATaskRunnerDelegate>)delegate
-                 completionHandler:(nullable void (^)(BOOL success))completionHandler {
+                 completionHandler:(nullable void (^)(BOOL success, NSTask *task))completionHandler {
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = commandPath;
 
@@ -86,11 +86,12 @@
     if ([[NSFileManager defaultManager] isExecutableFileAtPath:launchPath]) {
         @try {
             [task launch];
+
             success = YES;
         } @catch (NSException *exception) {
             error = [NSError commandPathExceptionErrorWithLaunchPath:launchPath];
             if (completionHandler) {
-                completionHandler(NO);
+                completionHandler(NO, nil);
             }
         }
     } else {
@@ -121,8 +122,9 @@
         }
     }
 
+    NSLog(@"%s Run completion for task %i", __PRETTY_FUNCTION__, task.processIdentifier);
     if (completionHandler) {
-        completionHandler(success);
+        completionHandler(success, task);
     }
 
     return task;

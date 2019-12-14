@@ -120,7 +120,7 @@ extension SDATaskRunner {
                                       withEnvironment environment: [String: String]?,
                                       timeout: TimeInterval,
                                       delegate: SDATaskRunnerDelegate?,
-                                      completionHandler: ((Bool) -> Void)?) -> Process {
+                                      completionHandler: ((Bool, Process) -> Void)?) -> Process {
         let task = runTask(withCommandPath: commandPath,
                            withArguments: arguments,
                            inDirectoryPath: directoryPath,

@@ -41,6 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
                    inDirectoryPath:(nullable NSString *)directoryPath
                    withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
                           delegate:(nullable id<SDATaskRunnerDelegate>)delegate
-                 completionHandler:(nullable void (^)(BOOL success))completionHandler;
+                 completionHandler:(nullable void (^)(BOOL success, NSTask *task))completionHandler;
 @end
 NS_ASSUME_NONNULL_END

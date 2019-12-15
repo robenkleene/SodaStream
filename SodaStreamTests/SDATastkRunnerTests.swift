@@ -69,7 +69,7 @@ class SDATastkRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: nil,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, _ in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
@@ -99,7 +99,7 @@ class SDATastkRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: nil,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, _ in
             XCTAssertFalse(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.arguments)
@@ -126,7 +126,7 @@ class SDATastkRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: environment,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, _ in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)

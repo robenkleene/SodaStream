@@ -33,7 +33,7 @@ class SDATaskRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: nil,
-                              delegate: self) { (success) -> Void in
+                              delegate: self) { success, _ -> Void in
             XCTAssertFalse(success)
             expection.fulfill()
         }

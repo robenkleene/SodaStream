@@ -44,29 +44,32 @@
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+        NSData *data = [file availableData];
+        if (!data.bytes) {
+            // Don't move this later, this gets called lots of times, and this
+            // is the fastest way to make sure no work has to be done.
+            return;
+        }
+
         NSTask *strongTask = weakTask;
         if (!strongTask) {
             return;
         }
 
-        NSData *data = [file availableData];
-        if (!data.bytes) {
-            if (!task.isRunning) {
-                BOOL sendDelegate;
-                @synchronized(self) {
-                    sendDelegate = standardErrorFinished && !standardOutputFinished;
-                    standardOutputFinished = YES;
-                }
+        if (!data.bytes && !task.isRunning) {
+            BOOL sendDelegate;
+            @synchronized(self) {
+                sendDelegate = standardErrorFinished && !standardOutputFinished;
+                standardOutputFinished = YES;
+            }
 
-                if (sendDelegate) {
-                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                                task.processIdentifier, task.launchPath);
-                    if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                        [delegate taskDidFinishStandardOutputAndStandardError:task];
-                    }
+            if (sendDelegate) {
+                os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                            task.processIdentifier, task.launchPath);
+                if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                    [delegate taskDidFinishStandardOutputAndStandardError:task];
                 }
             }
-            return;
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
@@ -77,31 +80,35 @@
     // Standard Error
     task.standardError = [NSPipe pipe];
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+        NSData *data = [file availableData];
+        if (!data.bytes) {
+            // Don't move this later, this gets called lots of times, and this
+            // is the fastest way to make sure no work has to be done.
+            return;
+        }
+
         NSTask *strongTask = weakTask;
         if (!strongTask) {
             return;
         }
 
-        NSData *data = [file availableData];
-        if (!data.bytes) {
-            if (!task.isRunning) {
-                BOOL sendDelegate;
-                @synchronized(self) {
-                    sendDelegate = standardOutputFinished && !standardErrorFinished;
-                    standardErrorFinished = YES;
-                }
-
-                if (sendDelegate) {
-                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                                task.processIdentifier, task.launchPath);
-                    if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                        [delegate taskDidFinishStandardOutputAndStandardError:task];
-                    }
-                }
+        if (!data.bytes && !task.isRunning) {
+            BOOL sendDelegate;
+            @synchronized(self) {
+                sendDelegate = standardOutputFinished && !standardErrorFinished;
                 standardErrorFinished = YES;
             }
-            return;
+
+            if (sendDelegate) {
+                os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                            task.processIdentifier, task.launchPath);
+                if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                    [delegate taskDidFinishStandardOutputAndStandardError:task];
+                }
+            }
+            standardErrorFinished = YES;
         }
+
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
                      task.launchPath);

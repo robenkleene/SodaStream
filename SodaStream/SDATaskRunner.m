@@ -53,7 +53,7 @@
         NSData *data = [file availableData];
         if (!data.bytes) {
             if (!task.isRunning) {
-                if (standardErrorFinished) {
+                if (standardErrorFinished && !standardOutputFinished) {
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }
@@ -79,7 +79,7 @@
         NSData *data = [file availableData];
         if (!data.bytes) {
             if (!task.isRunning) {
-                if (standardOutputFinished) {
+                if (standardOutputFinished && !standardErrorFinished) {
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }

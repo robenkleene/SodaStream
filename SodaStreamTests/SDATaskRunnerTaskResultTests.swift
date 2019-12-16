@@ -99,9 +99,9 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         let expectation = self.expectation(description: "Task finished")
 
         let task = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
-                                               withArguments: nil,
-                                               inDirectoryPath: nil,
-                                               withEnvironment: environment) { (standardOutput, _, error) -> Void in
+                                                      withArguments: nil,
+                                                      inDirectoryPath: nil,
+                                                      withEnvironment: environment) { (standardOutput, _, error) -> Void in
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {
                 XCTFail()

@@ -130,7 +130,7 @@ class SDATastkRunnerTests: XCTestCase {
             XCTAssertTrue(standardOutput.hasPrefix("A message"))
             outputExpectation.fulfill()
         }
-        
+
         SDATaskRunner.runTask(withCommandPath: commandPath,
                               withArguments: nil,
                               inDirectoryPath: nil,

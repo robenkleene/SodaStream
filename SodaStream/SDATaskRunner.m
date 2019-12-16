@@ -36,12 +36,11 @@
         [task setEnvironment:environmentDictionary];
     }
 
-
     __weak NSTask *weakTask = task;
-    __weak id <SDATaskRunnerDelegate> weakDelegate = delegate;
+    __weak id<SDATaskRunnerDelegate> weakDelegate = delegate;
     __block BOOL standardErrorFinished = NO;
     __block BOOL standardOutputFinished = NO;
-    
+
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
@@ -60,8 +59,8 @@
                 }
 
                 if (sendDelegate) {
-                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@", task.processIdentifier,
-                            task.launchPath);
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                task.processIdentifier, task.launchPath);
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }
@@ -71,7 +70,7 @@
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
-                task.launchPath);
+                    task.launchPath);
         [self processStandardOutput:text task:task delegate:delegate];
     }];
 
@@ -93,8 +92,8 @@
                 }
 
                 if (sendDelegate) {
-                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@", task.processIdentifier,
-                            task.launchPath);
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                task.processIdentifier, task.launchPath);
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }
@@ -105,7 +104,7 @@
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
-                task.launchPath);
+                     task.launchPath);
         [self processStandardError:text task:task delegate:delegate];
     }];
 
@@ -118,7 +117,7 @@
         if (!strongTask) {
             return;
         }
-        
+
         os_log_info(logHandle, "Task did terminate, %i %@", strongTask.processIdentifier, strongTask.launchPath);
 
         if ([weakDelegate respondsToSelector:@selector(taskDidFinish:)]) {

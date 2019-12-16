@@ -108,7 +108,7 @@ extension SDATaskRunner {
         var optionalTaskResultsCollector: TaskResultsCollector?
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
             // Hold a strong reference to the `taskResultsCollector` until this block has run.
-            let _ = optionalTaskResultsCollector
+            _ = optionalTaskResultsCollector
             optionalTaskResultsCollector = nil
             completionHandler(standardOutput, standardError, error)
         }

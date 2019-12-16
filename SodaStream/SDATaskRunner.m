@@ -53,12 +53,19 @@
         NSData *data = [file availableData];
         if (!data.bytes) {
             if (!task.isRunning) {
-                if (standardErrorFinished && !standardOutputFinished) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    sendDelegate = standardErrorFinished && !standardOutputFinished;
+                    standardOutputFinished = YES;
+                }
+
+                if (sendDelegate) {
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@", task.processIdentifier,
+                            task.launchPath);
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }
                 }
-                standardOutputFinished = YES;
             }
             return;
         }
@@ -79,7 +86,15 @@
         NSData *data = [file availableData];
         if (!data.bytes) {
             if (!task.isRunning) {
-                if (standardOutputFinished && !standardErrorFinished) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    sendDelegate = standardOutputFinished && !standardErrorFinished;
+                    standardErrorFinished = YES;
+                }
+
+                if (sendDelegate) {
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@", task.processIdentifier,
+                            task.launchPath);
                     if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
                         [delegate taskDidFinishStandardOutputAndStandardError:task];
                     }
@@ -164,7 +179,6 @@
         }
     }
 
-    NSLog(@"%s Run completion for task %i", __PRETTY_FUNCTION__, task.processIdentifier);
     if (completionHandler) {
         completionHandler(success, task);
     }

@@ -65,16 +65,16 @@
 
             if (sendDelegate) {
                 os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                            task.processIdentifier, task.launchPath);
-                if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                    [delegate taskDidFinishStandardOutputAndStandardError:task];
+                            strongTask.processIdentifier, strongTask.launchPath);
+                if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                    [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
                 }
             }
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
-                    task.launchPath);
-        [self processStandardOutput:text task:task delegate:delegate];
+        os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, strongTask.processIdentifier,
+                    strongTask.launchPath);
+        [self processStandardOutput:text task:strongTask delegate:weakDelegate];
     }];
 
     // Standard Error
@@ -92,7 +92,7 @@
             return;
         }
 
-        if (!data.bytes && !task.isRunning) {
+        if (!data.bytes && !strongTask.isRunning) {
             BOOL sendDelegate;
             @synchronized(self) {
                 sendDelegate = standardOutputFinished && !standardErrorFinished;
@@ -101,18 +101,18 @@
 
             if (sendDelegate) {
                 os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                            task.processIdentifier, task.launchPath);
-                if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                    [delegate taskDidFinishStandardOutputAndStandardError:task];
+                            strongTask.processIdentifier, strongTask.launchPath);
+                if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                    [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
                 }
             }
             standardErrorFinished = YES;
         }
 
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
-                     task.launchPath);
-        [self processStandardError:text task:task delegate:delegate];
+        os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, strongTask.processIdentifier,
+                     strongTask.launchPath);
+        [self processStandardError:text task:strongTask delegate:weakDelegate];
     }];
 
     // Standard Input
@@ -120,20 +120,15 @@
 
     // Termination handler
     [task setTerminationHandler:^(NSTask *task) {
-        NSTask *strongTask = weakTask;
-        if (!strongTask) {
-            return;
-        }
-
-        os_log_info(logHandle, "Task did terminate, %i %@", strongTask.processIdentifier, strongTask.launchPath);
+        os_log_info(logHandle, "Task did terminate, %i %@", task.processIdentifier, task.launchPath);
 
         if ([weakDelegate respondsToSelector:@selector(taskDidFinish:)]) {
-            [weakDelegate taskDidFinish:strongTask];
+            [weakDelegate taskDidFinish:task];
         }
 
         // As per NSTask.h, NSTaskDidTerminateNotification is not posted if a termination handler is set, so post it
         // here.
-        [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:strongTask];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:task];
     }];
 
     if ([delegate respondsToSelector:@selector(taskWillStart:)]) {

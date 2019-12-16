@@ -101,7 +101,8 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         let task = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                       withArguments: nil,
                                                       inDirectoryPath: nil,
-                                                      withEnvironment: environment) { (standardOutput, _, error) -> Void in
+                                                      withEnvironment: environment) {
+            (standardOutput, _, error) -> Void in
             XCTAssertNil(error)
             guard let standardOutput = standardOutput else {
                 XCTFail()

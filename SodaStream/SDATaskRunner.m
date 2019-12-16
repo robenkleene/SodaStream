@@ -36,18 +36,62 @@
         [task setEnvironment:environmentDictionary];
     }
 
+
+    __weak NSTask *weakTask = task;
+    __weak id <SDATaskRunnerDelegate> weakDelegate = delegate;
+    __block BOOL standardErrorFinished = NO;
+    __block BOOL standardOutputFinished = NO;
+    
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+        NSTask *strongTask = weakTask;
+        if (!strongTask) {
+            return;
+        }
+
         NSData *data = [file availableData];
-        [self processStandardOutputData:data task:task delegate:delegate];
+        if (!data.bytes) {
+            if (!task.isRunning) {
+                if (standardErrorFinished) {
+                    if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [delegate taskDidFinishStandardOutputAndStandardError:task];
+                    }
+                }
+                standardOutputFinished = YES;
+            }
+            return;
+        }
+        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
+                task.launchPath);
+        [self processStandardOutput:text task:task delegate:delegate];
     }];
 
     // Standard Error
     task.standardError = [NSPipe pipe];
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
+        NSTask *strongTask = weakTask;
+        if (!strongTask) {
+            return;
+        }
+
         NSData *data = [file availableData];
-        [self processStandardErrorData:data task:task delegate:delegate];
+        if (!data.bytes) {
+            if (!task.isRunning) {
+                if (standardOutputFinished) {
+                    if ([delegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [delegate taskDidFinishStandardOutputAndStandardError:task];
+                    }
+                }
+                standardErrorFinished = YES;
+            }
+            return;
+        }
+        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
+                task.launchPath);
+        [self processStandardError:text task:task delegate:delegate];
     }];
 
     // Standard Input
@@ -55,22 +99,20 @@
 
     // Termination handler
     [task setTerminationHandler:^(NSTask *task) {
-        os_log_info(logHandle, "Task did terminate, %i %@", task.processIdentifier, task.launchPath);
+        NSTask *strongTask = weakTask;
+        if (!strongTask) {
+            return;
+        }
+        
+        os_log_info(logHandle, "Task did terminate, %i %@", strongTask.processIdentifier, strongTask.launchPath);
 
-        [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
-        [[task.standardError fileHandleForReading] setReadabilityHandler:nil];
-        NSData *standardOutputData = [[task.standardOutput fileHandleForReading] availableData];
-        [self processStandardOutputData:standardOutputData task:task delegate:delegate];
-        NSData *standardErrorData = [[task.standardError fileHandleForReading] availableData];
-        [self processStandardErrorData:standardErrorData task:task delegate:delegate];
-
-        if ([delegate respondsToSelector:@selector(taskDidFinish:)]) {
-            [delegate taskDidFinish:task];
+        if ([weakDelegate respondsToSelector:@selector(taskDidFinish:)]) {
+            [weakDelegate taskDidFinish:strongTask];
         }
 
         // As per NSTask.h, NSTaskDidTerminateNotification is not posted if a termination handler is set, so post it
         // here.
-        [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:task];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:strongTask];
     }];
 
     if ([delegate respondsToSelector:@selector(taskWillStart:)]) {
@@ -128,26 +170,6 @@
     }
 
     return task;
-}
-
-+ (void)processStandardOutputData:(NSData *)data task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {
-    if (!data.bytes) {
-        return;
-    }
-    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
-                task.launchPath);
-    [self processStandardOutput:text task:task delegate:delegate];
-}
-
-+ (void)processStandardErrorData:(NSData *)data task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {
-    if (!data.bytes) {
-        return;
-    }
-    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
-                 task.launchPath);
-    [self processStandardError:text task:task delegate:delegate];
 }
 
 + (void)processStandardOutput:(NSString *)text task:(NSTask *)task delegate:(id<SDATaskRunnerDelegate>)delegate {

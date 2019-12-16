@@ -98,7 +98,7 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
 
         let expectation = self.expectation(description: "Task finished")
 
-        _ = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
+        let task = SDATaskRunner.runTaskUntilFinished(withCommandPath: commandPath,
                                                withArguments: nil,
                                                inDirectoryPath: nil,
                                                withEnvironment: environment) { (standardOutput, _, error) -> Void in
@@ -112,5 +112,6 @@ class SDATaskRunnerTaskResultTests: XCTestCase {
         }
 
         waitForExpectations(timeout: testTimeout, handler: nil)
+        XCTAssertNotNil(task)
     }
 }

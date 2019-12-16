@@ -9,10 +9,14 @@
 import Foundation
 
 extension TaskResultsCollector: SDATaskRunnerDelegate {
-    func taskDidFinish(_ task: Process) {
+    func taskDidFinishStandardOutputAndStandardError(_ task: Process) {
         assert(!task.isRunning)
         let error = makeError(for: task)
         completionHandler(standardOutput, standardError, error)
+    }
+
+    func taskDidFinish(_ task: Process) {
+        assert(!task.isRunning)
     }
 
     func task(_ task: Process,
@@ -101,9 +105,14 @@ extension SDATaskRunner {
                                            withEnvironment environment: [String: String]?,
                                            timeout: TimeInterval,
                                            completionHandler: @escaping SDATaskRunner.TaskResult) -> Process {
+        var optionalTaskResultsCollector: TaskResultsCollector?
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
+            // Hold a strong reference to the `taskResultsCollector` until this block has run.
+            let _ = optionalTaskResultsCollector
+            optionalTaskResultsCollector = nil
             completionHandler(standardOutput, standardError, error)
         }
+        optionalTaskResultsCollector = taskResultsCollector
 
         return runTaskWithCommandPath(commandPath,
                                       withArguments: arguments,

@@ -131,24 +131,27 @@ class SDATastkRunnerTests: XCTestCase {
             outputExpectation.fulfill()
         }
 
+        var optionalTask: Process?
         SDATaskRunner.runTask(withCommandPath: commandPath,
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: environment,
-                              delegate: runResult) { success, _ in
-            XCTAssertTrue(success)
-            XCTAssertEqual(runResult.commandPath, commandPath)
-            XCTAssertNil(runResult.error)
-            XCTAssertNil(runResult.arguments)
-            XCTAssertNil(runResult.directoryPath)
-            guard let environmentDictionary = runResult.environmentDictionary else {
-                XCTFail()
-                return
-            }
-            XCTAssertEqual(runResult.environmentDictionary, environmentDictionary)
-            finishedExpectation.fulfill()
+                              delegate: runResult) { success, task in
+                                optionalTask = task
+                                XCTAssertTrue(success)
+                                XCTAssertEqual(runResult.commandPath, commandPath)
+                                XCTAssertNil(runResult.error)
+                                XCTAssertNil(runResult.arguments)
+                                XCTAssertNil(runResult.directoryPath)
+                                guard let environmentDictionary = runResult.environmentDictionary else {
+                                    XCTFail()
+                                    return
+                                }
+                                XCTAssertEqual(runResult.environmentDictionary, environmentDictionary)
+                                finishedExpectation.fulfill()
         }
 
         waitForExpectations(timeout: testTimeout, handler: nil)
+        XCTAssertNotNil(optionalTask)
     }
 }

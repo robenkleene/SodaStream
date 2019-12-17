@@ -49,13 +49,15 @@
             if (weakTask && !weakTask.isRunning) {
                 BOOL sendDelegate;
                 @synchronized(self) {
-                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be called once.
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be
+                    // called once.
                     sendDelegate = standardErrorFinished && !standardOutputFinished;
                     standardOutputFinished = YES;
                 }
-                
+
                 if (sendDelegate) {
-                    // Put off initializing the `strongTask` as long as possible because this method gets called so many times.
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many
+                    // times.
                     NSTask *strongTask = weakTask;
                     if (!strongTask) {
                         return;
@@ -90,13 +92,15 @@
             if (weakTask && !weakTask.isRunning) {
                 BOOL sendDelegate;
                 @synchronized(self) {
-                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be called once.
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be
+                    // called once.
                     sendDelegate = standardOutputFinished && !standardErrorFinished;
                     standardErrorFinished = YES;
                 }
 
                 if (sendDelegate) {
-                    // Put off initializing the `strongTask` as long as possible because this method gets called so many times.
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many
+                    // times.
                     NSTask *strongTask = weakTask;
                     if (!strongTask) {
                         return;

@@ -56,7 +56,7 @@
             return;
         }
 
-        if (!data.bytes && !task.isRunning) {
+        if (!data.bytes && !strongTask.isRunning) {
             BOOL sendDelegate;
             @synchronized(self) {
                 sendDelegate = standardErrorFinished && !standardOutputFinished;
@@ -98,7 +98,7 @@
                 sendDelegate = standardOutputFinished && !standardErrorFinished;
                 standardErrorFinished = YES;
             }
-
+            
             if (sendDelegate) {
                 os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
                             strongTask.processIdentifier, strongTask.launchPath);

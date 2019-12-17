@@ -33,12 +33,17 @@ extension TaskResultsCollector: SDATaskRunnerDelegate {
     func task(_: Process, didReadFromStandardOutput text: String) {
         appendToStandardOutput(text)
     }
+
+    func taskWillStart(_ task: Process) {
+        self.task = task
+    }
 }
 
 private class TaskResultsCollector: NSObject {
     var standardOutput: String?
     var standardError: String?
     var error: NSError?
+    var task: Process?
 
     let completionHandler: SDATaskRunner.TaskResult
     init(completionHandler: @escaping SDATaskRunner.TaskResult) {

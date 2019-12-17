@@ -46,6 +46,27 @@
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            if (weakTask && !weakTask.isRunning) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be called once.
+                    sendDelegate = standardErrorFinished && !standardOutputFinished;
+                    standardOutputFinished = YES;
+                }
+                
+                if (sendDelegate) {
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many times.
+                    NSTask *strongTask = weakTask;
+                    if (!strongTask) {
+                        return;
+                    }
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                strongTask.processIdentifier, strongTask.launchPath);
+                    if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
+                    }
+                }
+            }
             // Don't move this later, this gets called lots of times, and this
             // is the fastest way to make sure no work has to be done.
             return;
@@ -54,22 +75,6 @@
         NSTask *strongTask = weakTask;
         if (!strongTask) {
             return;
-        }
-
-        if (!data.bytes && !strongTask.isRunning) {
-            BOOL sendDelegate;
-            @synchronized(self) {
-                sendDelegate = standardErrorFinished && !standardOutputFinished;
-                standardOutputFinished = YES;
-            }
-
-            if (sendDelegate) {
-                os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                            strongTask.processIdentifier, strongTask.launchPath);
-                if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                    [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
-                }
-            }
         }
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, strongTask.processIdentifier,
@@ -82,6 +87,27 @@
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            if (weakTask && !weakTask.isRunning) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be called once.
+                    sendDelegate = standardOutputFinished && !standardErrorFinished;
+                    standardErrorFinished = YES;
+                }
+
+                if (sendDelegate) {
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many times.
+                    NSTask *strongTask = weakTask;
+                    if (!strongTask) {
+                        return;
+                    }
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                strongTask.processIdentifier, strongTask.launchPath);
+                    if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
+                    }
+                }
+            }
             // Don't move this later, this gets called lots of times, and this
             // is the fastest way to make sure no work has to be done.
             return;
@@ -91,24 +117,6 @@
         if (!strongTask) {
             return;
         }
-
-        if (!data.bytes && !strongTask.isRunning) {
-            BOOL sendDelegate;
-            @synchronized(self) {
-                sendDelegate = standardOutputFinished && !standardErrorFinished;
-                standardErrorFinished = YES;
-            }
-            
-            if (sendDelegate) {
-                os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
-                            strongTask.processIdentifier, strongTask.launchPath);
-                if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
-                    [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
-                }
-            }
-            standardErrorFinished = YES;
-        }
-
         NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, strongTask.processIdentifier,
                      strongTask.launchPath);

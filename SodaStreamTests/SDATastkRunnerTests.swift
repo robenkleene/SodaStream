@@ -69,7 +69,7 @@ class SDATastkRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: nil,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, _ in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
@@ -99,7 +99,7 @@ class SDATastkRunnerTests: XCTestCase {
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: nil,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, _ in
             XCTAssertFalse(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.arguments)
@@ -122,11 +122,22 @@ class SDATastkRunnerTests: XCTestCase {
         let finishedExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
+        runResult.standardOutputCompletionHandler = {
+            guard let standardOutput = runResult.standardOutput else {
+                XCTFail()
+                return
+            }
+            XCTAssertTrue(standardOutput.hasPrefix("A message"))
+            outputExpectation.fulfill()
+        }
+
+        var optionalTask: Process?
         SDATaskRunner.runTask(withCommandPath: commandPath,
                               withArguments: nil,
                               inDirectoryPath: nil,
                               withEnvironment: environment,
-                              delegate: runResult) { success in
+                              delegate: runResult) { success, task in
+            optionalTask = task
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
@@ -140,15 +151,7 @@ class SDATastkRunnerTests: XCTestCase {
             finishedExpectation.fulfill()
         }
 
-        runResult.standardOutputCompletionHandler = {
-            guard let standardOutput = runResult.standardOutput else {
-                XCTFail()
-                return
-            }
-            XCTAssertTrue(standardOutput.hasPrefix("A message"))
-            outputExpectation.fulfill()
-        }
-
         waitForExpectations(timeout: testTimeout, handler: nil)
+        XCTAssertNotNil(optionalTask)
     }
 }

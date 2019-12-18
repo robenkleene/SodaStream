@@ -9,10 +9,14 @@
 import Foundation
 
 extension TaskResultsCollector: SDATaskRunnerDelegate {
-    func taskDidFinish(_ task: Process) {
+    func taskDidFinishStandardOutputAndStandardError(_ task: Process) {
         assert(!task.isRunning)
         let error = makeError(for: task)
         completionHandler(standardOutput, standardError, error)
+    }
+
+    func taskDidFinish(_ task: Process) {
+        assert(!task.isRunning)
     }
 
     func task(_ task: Process,
@@ -29,12 +33,17 @@ extension TaskResultsCollector: SDATaskRunnerDelegate {
     func task(_: Process, didReadFromStandardOutput text: String) {
         appendToStandardOutput(text)
     }
+
+    func taskWillStart(_ task: Process) {
+        self.task = task
+    }
 }
 
 private class TaskResultsCollector: NSObject {
     var standardOutput: String?
     var standardError: String?
     var error: NSError?
+    var task: Process?
 
     let completionHandler: SDATaskRunner.TaskResult
     init(completionHandler: @escaping SDATaskRunner.TaskResult) {
@@ -101,9 +110,14 @@ extension SDATaskRunner {
                                            withEnvironment environment: [String: String]?,
                                            timeout: TimeInterval,
                                            completionHandler: @escaping SDATaskRunner.TaskResult) -> Process {
+        var optionalTaskResultsCollector: TaskResultsCollector?
         let taskResultsCollector = TaskResultsCollector { standardOutput, standardError, error in
+            // Hold a strong reference to the `taskResultsCollector` until this block has run.
+            _ = optionalTaskResultsCollector
+            optionalTaskResultsCollector = nil
             completionHandler(standardOutput, standardError, error)
         }
+        optionalTaskResultsCollector = taskResultsCollector
 
         return runTaskWithCommandPath(commandPath,
                                       withArguments: arguments,
@@ -120,7 +134,7 @@ extension SDATaskRunner {
                                       withEnvironment environment: [String: String]?,
                                       timeout: TimeInterval,
                                       delegate: SDATaskRunnerDelegate?,
-                                      completionHandler: ((Bool) -> Void)?) -> Process {
+                                      completionHandler: ((Bool, Process) -> Void)?) -> Process {
         let task = runTask(withCommandPath: commandPath,
                            withArguments: arguments,
                            inDirectoryPath: directoryPath,

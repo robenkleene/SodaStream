@@ -18,7 +18,7 @@
                    inDirectoryPath:(nullable NSString *)directoryPath
                    withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
                           delegate:(nullable id<SDATaskRunnerDelegate>)delegate
-                 completionHandler:(nullable void (^)(BOOL success))completionHandler {
+                 completionHandler:(nullable void (^)(BOOL success, NSTask *task))completionHandler {
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = commandPath;
 
@@ -36,19 +36,52 @@
         [task setEnvironment:environmentDictionary];
     }
 
+    __weak NSTask *weakTask = task;
+    __weak id<SDATaskRunnerDelegate> weakDelegate = delegate;
+    __block BOOL standardErrorFinished = NO;
+    __block BOOL standardOutputFinished = NO;
+
     // Standard Output
     task.standardOutput = [NSPipe pipe];
     [[task.standardOutput fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            if (weakTask && !weakTask.isRunning) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be
+                    // called once.
+                    sendDelegate = standardErrorFinished && !standardOutputFinished;
+                    standardOutputFinished = YES;
+                }
+
+                if (sendDelegate) {
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many
+                    // times.
+                    NSTask *strongTask = weakTask;
+                    if (!strongTask) {
+                        return;
+                    }
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                strongTask.processIdentifier, strongTask.launchPath);
+                    if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
+                    }
+                }
+            }
+            // Don't move this later, this gets called lots of times, and this
+            // is the fastest way to make sure no work has to be done.
             return;
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, task.processIdentifier,
-                        task.launchPath);
-            [self processStandardOutput:text task:task delegate:delegate];
-        });
+
+        NSTask *strongTask = weakTask;
+        if (!strongTask) {
+            return;
+        }
+        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        os_log_info(logHandle, "Task did print to standard output, %@, %i %@", text, strongTask.processIdentifier,
+                    strongTask.launchPath);
+        [self processStandardOutput:text task:strongTask delegate:weakDelegate];
     }];
 
     // Standard Error
@@ -56,14 +89,42 @@
     [[task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file) {
         NSData *data = [file availableData];
         if (!data.bytes) {
+            if (weakTask && !weakTask.isRunning) {
+                BOOL sendDelegate;
+                @synchronized(self) {
+                    // The order of setting `standardOutputFinished` is inverted so the delegate message can only be
+                    // called once.
+                    sendDelegate = standardOutputFinished && !standardErrorFinished;
+                    standardErrorFinished = YES;
+                }
+
+                if (sendDelegate) {
+                    // Put off initializing the `strongTask` as long as possible because this method gets called so many
+                    // times.
+                    NSTask *strongTask = weakTask;
+                    if (!strongTask) {
+                        return;
+                    }
+                    os_log_info(logHandle, "Task did finish standard output and standard error, %i %@",
+                                strongTask.processIdentifier, strongTask.launchPath);
+                    if ([weakDelegate respondsToSelector:@selector(taskDidFinishStandardOutputAndStandardError:)]) {
+                        [weakDelegate taskDidFinishStandardOutputAndStandardError:strongTask];
+                    }
+                }
+            }
+            // Don't move this later, this gets called lots of times, and this
+            // is the fastest way to make sure no work has to be done.
             return;
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, task.processIdentifier,
-                         task.launchPath);
-            [self processStandardError:text task:task delegate:delegate];
-        });
+
+        NSTask *strongTask = weakTask;
+        if (!strongTask) {
+            return;
+        }
+        NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        os_log_error(logHandle, "Task did print to standard error, %@, %i %@", text, strongTask.processIdentifier,
+                     strongTask.launchPath);
+        [self processStandardError:text task:strongTask delegate:weakDelegate];
     }];
 
     // Standard Input
@@ -73,19 +134,13 @@
     [task setTerminationHandler:^(NSTask *task) {
         os_log_info(logHandle, "Task did terminate, %i %@", task.processIdentifier, task.launchPath);
 
-        [[task.standardOutput fileHandleForReading] setReadabilityHandler:nil];
-        [[task.standardError fileHandleForReading] setReadabilityHandler:nil];
+        if ([weakDelegate respondsToSelector:@selector(taskDidFinish:)]) {
+            [weakDelegate taskDidFinish:task];
+        }
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // Standard Input, Output & Error
-            if ([delegate respondsToSelector:@selector(taskDidFinish:)]) {
-                [delegate taskDidFinish:task];
-            }
-
-            // As per NSTask.h, NSTaskDidTerminateNotification is not posted if a termination handler is set, so post it
-            // here.
-            [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:task];
-        });
+        // As per NSTask.h, NSTaskDidTerminateNotification is not posted if a termination handler is set, so post it
+        // here.
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSTaskDidTerminateNotification object:task];
     }];
 
     if ([delegate respondsToSelector:@selector(taskWillStart:)]) {
@@ -101,11 +156,12 @@
     if ([[NSFileManager defaultManager] isExecutableFileAtPath:launchPath]) {
         @try {
             [task launch];
+
             success = YES;
         } @catch (NSException *exception) {
             error = [NSError commandPathExceptionErrorWithLaunchPath:launchPath];
             if (completionHandler) {
-                completionHandler(NO);
+                completionHandler(NO, nil);
             }
         }
     } else {
@@ -137,7 +193,7 @@
     }
 
     if (completionHandler) {
-        completionHandler(success);
+        completionHandler(success, task);
     }
 
     return task;

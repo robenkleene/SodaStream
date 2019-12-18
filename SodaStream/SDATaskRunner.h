@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Starting & Finishing Tasks
 - (void)taskWillStart:(NSTask *)task;
 - (void)taskDidFinish:(NSTask *)task;
+- (void)taskDidFinishStandardOutputAndStandardError:(NSTask *)task;
 - (BOOL)taskShouldStart:(NSTask *)task;
 - (void)task:(NSTask *)task
     didFailToRunCommandPath:(NSString *)commandPath
@@ -41,6 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
                    inDirectoryPath:(nullable NSString *)directoryPath
                    withEnvironment:(nullable NSDictionary<NSString *, NSString *> *)environmentDictionary
                           delegate:(nullable id<SDATaskRunnerDelegate>)delegate
-                 completionHandler:(nullable void (^)(BOOL success))completionHandler;
+                 completionHandler:(nullable void (^)(BOOL success, NSTask *task))completionHandler;
 @end
 NS_ASSUME_NONNULL_END

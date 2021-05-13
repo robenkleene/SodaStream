@@ -1,6 +1,6 @@
 SCHEME = SodaStream
 
-.PHONY: build test lint autocorrect swiftformat swiftlint_autocorrect bootstrap clangformat loc archive
+.PHONY: build test lint autocorrect swiftformat swiftlint_autocorrect clangformat loc archive
 
 ci: build
 ac: autocorrect
@@ -26,9 +26,6 @@ build:
 	xcodebuild build \
 		-alltargets \
 		-configuration Debug
-
-bootstrap:
-	carthage bootstrap
 
 test:
 	xcodebuild test \

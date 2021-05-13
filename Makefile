@@ -1,6 +1,6 @@
 SCHEME = SodaStream
 
-.PHONY: build test lint autocorrect swiftformat swiftlint_autocorrect bootstrap clangformat loc
+.PHONY: build test lint autocorrect swiftformat swiftlint_autocorrect bootstrap clangformat loc archive
 
 ci: build
 ac: autocorrect
@@ -17,6 +17,10 @@ swiftlint_autocorrect:
 
 clangformat:
 	git ls-files '*.h' '*.m' -z | xargs -0 clang-format -style=file -i
+
+archive:
+	carthage build --no-skip-current
+	carthage archive SodaStream
 
 build:
 	xcodebuild build \

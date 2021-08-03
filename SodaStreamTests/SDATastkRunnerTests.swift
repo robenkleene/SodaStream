@@ -65,6 +65,15 @@ class SDATastkRunnerTests: XCTestCase {
         let finishedExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
+        runResult.standardOutputCompletionHandler = {
+            guard let standardOutput = runResult.standardOutput else {
+                XCTFail()
+                return
+            }
+            XCTAssertTrue(standardOutput.hasPrefix("Hello World"))
+            outputExpectation.fulfill()
+        }
+
         SDATaskRunner.runTask(withCommandPath: commandPath,
                               withArguments: nil,
                               inDirectoryPath: nil,
@@ -79,14 +88,6 @@ class SDATastkRunnerTests: XCTestCase {
             finishedExpectation.fulfill()
         }
 
-        runResult.standardOutputCompletionHandler = {
-            guard let standardOutput = runResult.standardOutput else {
-                XCTFail()
-                return
-            }
-            XCTAssertTrue(standardOutput.hasPrefix("Hello World"))
-            outputExpectation.fulfill()
-        }
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
 

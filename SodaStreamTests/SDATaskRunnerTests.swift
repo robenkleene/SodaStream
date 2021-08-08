@@ -62,7 +62,7 @@ class SDATaskRunnerTests: XCTestCase {
                                ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
 
-        let finishedExpectation = expectation(description: "Task finished")
+        let runningExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
         runResult.standardOutputCompletionHandler = {
@@ -85,7 +85,7 @@ class SDATaskRunnerTests: XCTestCase {
             XCTAssertNil(runResult.arguments)
             XCTAssertNil(runResult.directoryPath)
             XCTAssertNil(runResult.environmentDictionary)
-            finishedExpectation.fulfill()
+            runningExpectation.fulfill()
         }
 
         waitForExpectations(timeout: testTimeout, handler: nil)

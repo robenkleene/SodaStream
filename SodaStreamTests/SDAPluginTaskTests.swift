@@ -9,7 +9,7 @@
 @testable import SodaStream
 import XCTest
 
-extension SDATaskRunnerTests: SDATaskRunnerDelegate {
+extension SDATaskRunnerInvalidCommandTests: SDATaskRunnerDelegate {
     func task(_: Process, didFailToRunCommandPath _: String,
               arguments _: [String]?,
               directoryPath _: String?,
@@ -22,7 +22,7 @@ extension SDATaskRunnerTests: SDATaskRunnerDelegate {
     }
 }
 
-class SDATaskRunnerTests: XCTestCase {
+class SDATaskRunnerInvalidCommandTests: XCTestCase {
     var didFailToRunCommandPathExpectation: XCTestExpectation?
 
     func testInvalidCommandPath() {

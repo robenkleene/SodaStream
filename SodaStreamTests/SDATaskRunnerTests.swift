@@ -55,7 +55,7 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
     }
 }
 
-class SDATastkRunnerTests: XCTestCase {
+class SDATaskRunnerTests: XCTestCase {
     func testStandardOutput() {
         let runResult = RunResult()
         let commandPath = path(forResource: testDataHelloWorld,

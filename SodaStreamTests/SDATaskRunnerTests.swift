@@ -74,11 +74,11 @@ class SDATaskRunnerTests: XCTestCase {
             outputExpectation.fulfill()
         }
 
-        SDATaskRunner.runTask(withCommandPath: commandPath,
-                              withArguments: nil,
-                              inDirectoryPath: nil,
-                              withEnvironment: nil,
-                              delegate: runResult) { success, _ in
+        let taskToken = SDATaskRunner.runTask(withCommandPath: commandPath,
+                                              withArguments: nil,
+                                              inDirectoryPath: nil,
+                                              withEnvironment: nil,
+                                              delegate: runResult) { success, _ in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
@@ -88,6 +88,8 @@ class SDATaskRunnerTests: XCTestCase {
             runningExpectation.fulfill()
         }
 
+        // Without a reference to the task, it can leave memory before standard output is received
+        XCTAssertNotNil(taskToken)
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
 

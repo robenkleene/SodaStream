@@ -55,14 +55,14 @@ class RunResult: NSObject, SDATaskRunnerDelegate {
     }
 }
 
-class SDATastkRunnerTests: XCTestCase {
+class SDATaskRunnerTests: XCTestCase {
     func testStandardOutput() {
         let runResult = RunResult()
         let commandPath = path(forResource: testDataHelloWorld,
                                ofType: testDataShellScriptExtension,
                                inDirectory: testDataSubdirectory)!
 
-        let finishedExpectation = expectation(description: "Task finished")
+        let runningExpectation = expectation(description: "Task finished")
         let outputExpectation = expectation(description: "Output expectation")
 
         runResult.standardOutputCompletionHandler = {
@@ -74,20 +74,22 @@ class SDATastkRunnerTests: XCTestCase {
             outputExpectation.fulfill()
         }
 
-        SDATaskRunner.runTask(withCommandPath: commandPath,
-                              withArguments: nil,
-                              inDirectoryPath: nil,
-                              withEnvironment: nil,
-                              delegate: runResult) { success, _ in
+        let taskToken = SDATaskRunner.runTask(withCommandPath: commandPath,
+                                              withArguments: nil,
+                                              inDirectoryPath: nil,
+                                              withEnvironment: nil,
+                                              delegate: runResult) { success, _ in
             XCTAssertTrue(success)
             XCTAssertEqual(runResult.commandPath, commandPath)
             XCTAssertNil(runResult.error)
             XCTAssertNil(runResult.arguments)
             XCTAssertNil(runResult.directoryPath)
             XCTAssertNil(runResult.environmentDictionary)
-            finishedExpectation.fulfill()
+            runningExpectation.fulfill()
         }
 
+        // Without a reference to the task, it can leave memory before standard output is received
+        XCTAssertNotNil(taskToken)
         waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
